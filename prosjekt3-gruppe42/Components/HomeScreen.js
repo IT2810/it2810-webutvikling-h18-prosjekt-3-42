@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Button } from 'react-native';
-
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
+import {Button} from 'react-native-paper';
 import ToDo from './ToDo.js'
 
 export default class HomeScreen extends React.Component {
@@ -15,24 +15,6 @@ export default class HomeScreen extends React.Component {
         }
       }
 
-  async test() {
-        try {
-      const {action, year, month, day} = await DatePickerAndroid.open({
-        // Use `new Date()` for current date.
-        // May 25 2020. Month 0 is January.
-        date: new Date()
-      });
-      if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-        this._storeData(year, month, day)
-        this._retrieveData()
-        // console.warn(action, year, month, day)
-      }
-    } catch ({code, message}) {
-      console.warn('Cannot open date picker', message);
-    }
-  }
-
 _storeData = async () => {
   try {
     await AsyncStorage.setItem('todos', JSON.stringify(this.state.todos));
@@ -44,6 +26,7 @@ _storeData = async () => {
 
 _retrieveData = async () => {
   try {
+    // await AsyncStorage.clear();
     const value = await AsyncStorage.getItem('todos');
     if (value !== null) {
       // We have data!!
@@ -68,17 +51,15 @@ _retrieveData = async () => {
   }
 
   render() {
-      const todoList = this.state.todos.map((x, i) => <ToDo key={i} data={x}  />)
+      const todoList = this.state.todos.map((x, i) => <ToDo key={i} data={x} />)
     return (
       <View style={styles.container}>
-        {/* <TouchableOpacity
-            onPress={()=>this.test()}
-        >
-        <Text>{ this.state.YearMonthDay}</Text>
-        </TouchableOpacity> */}
         {todoList}
         <Button
           title="Go to Details"
+          mode="contained"
+          color='#f4511e'
+          style={styles.button}
           onPress={() => {
             /* 1. Navigate to the Details route with params */
             this.props.navigation.navigate('Edit', {
@@ -87,7 +68,7 @@ _retrieveData = async () => {
               handleTodoAdd: this.handleTodoAdd.bind(this)
             });
           }}
-        />
+      > Add new ToDo </Button>
       </View>
     );
   }
@@ -96,8 +77,12 @@ _retrieveData = async () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+      margin:10,
+      width:'50%',
   },
 });
