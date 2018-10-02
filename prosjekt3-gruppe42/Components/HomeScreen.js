@@ -59,7 +59,7 @@ _retrieveData = async () => {
       console.log(this.state)
     return (
       <View style={styles.container}>
-         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.title} renderItem={({item}) => <ToDo data={item} />} />
+         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} />} />
         <Button
           title="Go to Details"
           mode="contained"
