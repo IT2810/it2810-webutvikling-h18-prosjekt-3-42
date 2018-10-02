@@ -24,7 +24,7 @@ class ToDo extends React.Component {
         // var month = date.toLocaleString(this.locale, {month: "long"})
         var year = date.getFullYear();
         var month = date.getMonth();
-        var day = date.getDay();
+        var day = date.getDate();
         console.log(this.prioColors)
         // console.log(date.toLocaleString(this.locale, {year: "numeric"}))
         // var year = this.props.data.date.getFullYear();
