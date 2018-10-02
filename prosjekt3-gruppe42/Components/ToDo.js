@@ -9,8 +9,9 @@ import {
     AsyncStorage,
     Button
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-export default class ToDo extends React.Component {
+class ToDo extends React.Component {
     constructor() {
         super()
         const locale = "nb-no";
@@ -29,6 +30,7 @@ export default class ToDo extends React.Component {
         // var month =  this.props.data.date.toLocaleString(locale, {month:'long'});
         return (
             <Surface style={styles.container}>
+            <Button onPress={() => this.props.navigation.navigate("Edit") } title={"edit"}>Edit</Button>
             <Text>
                 {this.props.data.title}
             </Text>
@@ -48,3 +50,5 @@ const styles = StyleSheet.create({
         elevation:2
     }
 });
+
+export default withNavigation(ToDo)
