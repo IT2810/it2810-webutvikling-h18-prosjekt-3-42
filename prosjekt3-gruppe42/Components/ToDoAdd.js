@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
+import { withNavigation } from 'react-navigation';
 
-export default class ToDoAdd extends React.Component {
+class ToDoAdd extends React.Component {
     constructor(){
         super()
         this.state = {
@@ -52,7 +53,8 @@ export default class ToDoAdd extends React.Component {
 
             <Button mode="contained" color='#f4511e' style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
 
-        <Button mode="contained"  color='#f4511e' style={styles.button} title="Save" onPress={() => this.props.navigation.getParam('handleTodoAdd')(this.state)}> Save </Button>
+        <Button mode="contained"  color='#f4511e' style={styles.button} title="Save" 
+          onPress={() => {this.props.navigation.getParam('handleTodoAdd')(this.state); this.props.navigation.goBack()}}> Save </Button>
       </View>
     );
   }
@@ -75,3 +77,5 @@ const styles = StyleSheet.create({
       backgroundColor: '#f5f5f5'
   }
 });
+
+export default withNavigation(ToDoAdd)
