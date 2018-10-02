@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View,FlatList,  TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-paper';
 import ToDo from './ToDo.js'
 
@@ -54,7 +54,7 @@ _retrieveData = async () => {
       const todoList = this.state.todos.map((x, i) => <ToDo key={i} data={x} />)
     return (
       <View style={styles.container}>
-        {todoList}
+         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.title} renderItem={({item}) => <ToDo data={item} />} />
         <Button
           title="Go to Details"
           mode="contained"
@@ -69,7 +69,8 @@ _retrieveData = async () => {
             });
           }}
       > Add new ToDo </Button>
-      </View>
+  {/* </FlatList> */}
+  </View>
     );
   }
 }

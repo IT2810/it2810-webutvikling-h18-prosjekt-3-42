@@ -29,7 +29,7 @@ export default class ToDo extends React.Component {
         // var year = this.props.data.date.getFullYear();
         // var month =  this.props.data.date.toLocaleString(locale, {month:'long'});
         return (
-            <Surface style={styles.container}>
+        <Surface style={styles.container}>
             <Text style={[styles.title, {borderBottomColor: this.prioColors[0]}]}>{this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } </Text>
             <Text>{this.props.data.description}</Text>
         </Surface>);
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         margin:8,
         flex:1,
         maxHeight:200,
+        minHeight:100,
         padding:10,
         // justifyContent: 'center',
         elevation:2
