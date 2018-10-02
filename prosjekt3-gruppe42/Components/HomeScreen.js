@@ -56,15 +56,17 @@ _retrieveData = async () => {
     this.props.navigation.navigate(place)
   }
 
-  sortTodos() {
-    
+  onChangeTodo(data) {
+    let oldState = this.state
+    let index = oldState.todos.indexOf(data)
+    console.log(index)
   }
 
   render() {
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
     return (
       <View style={styles.container}>
-         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} />} />
+         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} onChangeTodo={this.onChangeTodo.bind(this)} />} />
         {/*<Button
           title="Go to Details"
           mode="contained"
