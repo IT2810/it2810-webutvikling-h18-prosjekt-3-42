@@ -6,6 +6,7 @@ export default class ToDoAdd extends React.Component {
     constructor(){
         super()
         this.state = {
+            key: new Date().getTime().toString(),
             title: "",
             date: {year:"", month:"", day:""},
             description:""

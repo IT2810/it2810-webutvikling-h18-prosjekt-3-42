@@ -58,7 +58,7 @@ _retrieveData = async () => {
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
     return (
       <View style={styles.container}>
-         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.title} renderItem={({item}) => <ToDo data={item} />} />
+         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} />} />
         <Button
           title="Go to Details"
           mode="contained"
