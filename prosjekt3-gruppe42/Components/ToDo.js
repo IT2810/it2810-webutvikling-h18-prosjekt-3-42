@@ -1,5 +1,5 @@
 import React from 'react';
-import {Surface} from 'react-native-paper';
+import { Surface, Button } from 'react-native-paper';
 import {
     StyleSheet,
     Text,
@@ -7,9 +7,10 @@ import {
     TouchableOpacity,
     DatePickerAndroid,
     AsyncStorage,
-    Button
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 class ToDo extends React.Component {
     constructor() {
@@ -32,8 +33,29 @@ class ToDo extends React.Component {
         return (
         <Surface style={styles.container}>
             <Text style={[styles.title, {borderBottomColor: this.prioColors[0]}]}>{this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } </Text>
-            <Button onPress={() => this.props.navigation.navigate("Edit") } title={"edit"}>Edit</Button>
+            {/*<Button 
+            style={styles.button}
+            mode="contained"
+            onPress={() => this.props.navigation.navigate("Edit") } 
+            title="edit" color='#f4511e'>
+            <MaterialIcons name="edit" size={18} color="white" />
+            </Button>*/}
+
             <Text>{this.props.data.description}</Text>
+            <TouchableOpacity
+                onPress={() => this.props.navigation.navigate("Edit") } 
+                style={{
+                alignItems:'center',
+                alignSelf: 'flex-end',
+                justifyContent:'center',
+                width:30,
+                height:30,
+                backgroundColor:'#f4511e',
+                borderRadius:30,
+                }}
+            >
+            <MaterialIcons name="edit" size={18} color="white" />
+            </TouchableOpacity>
         </Surface>);
     }
 }
@@ -57,6 +79,12 @@ const styles = StyleSheet.create({
         color:'grey',
         // padding: 5,
         fontWeight: 'bold'
+    },
+    button: {
+        width: 18,
+        height: 18,
+        borderRadius: 9,
+        padding: 0,
     }
 });
 

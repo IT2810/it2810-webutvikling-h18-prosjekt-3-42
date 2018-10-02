@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View,FlatList,  TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
 import {Button} from 'react-native-paper';
 import ToDo from './ToDo.js'
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -54,26 +56,51 @@ _retrieveData = async () => {
     this.props.navigation.navigate(place)
   }
 
+  sortTodos() {
+    
+  }
+
   render() {
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
-      console.log(this.state)
     return (
       <View style={styles.container}>
          <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} />} />
-        <Button
+        {/*<Button
           title="Go to Details"
           mode="contained"
           color='#f4511e'
           style={styles.button}
           onPress={() => {
-            /* 1. Navigate to the Details route with params */
+            // 1. Navigate to the Details route with params
             this.props.navigation.navigate('Add', {
               itemId: 86,
               message: 'anything you want here',
               handleTodoAdd: this.handleTodoAdd.bind(this)
             });
           }}
-      > Add new ToDo </Button>
+            ><MaterialIcons name="edit" size={18} color="white" />
+      Add new ToDo </Button>
+      */}
+          <TouchableOpacity
+                onPress={() => 
+                  this.props.navigation.navigate('Add', {
+                  itemId: 86,
+                  message: 'anything you want here',
+                  handleTodoAdd: this.handleTodoAdd.bind(this)
+                })}
+                style={{
+                alignItems:'center',
+                alignSelf: 'flex-end',
+                justifyContent:'center',
+                width:60,
+                height:60,
+                backgroundColor:'#f4511e',
+                borderRadius:60,
+                margin: 10,
+                }}
+            >
+            <MaterialIcons name="add" size={36} color="white" />
+            </TouchableOpacity>
   {/* </FlatList> */}
   </View>
     );
