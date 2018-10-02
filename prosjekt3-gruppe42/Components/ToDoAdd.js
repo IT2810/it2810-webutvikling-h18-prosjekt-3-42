@@ -12,7 +12,7 @@ export default class ToDoAdd extends React.Component {
         }
     }
     static navigationOptions = {
-        title: 'Todo Edit',
+        title: 'Todo Add',
       };
 
       async pickDate() {

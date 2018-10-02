@@ -50,8 +50,12 @@ _retrieveData = async () => {
       console.log(this.state.todos)
   }
 
+  navigate(place) {
+    this.props.navigation.navigate(place)
+  }
+
   render() {
-      const todoList = this.state.todos.map((x, i) => <ToDo key={i} data={x} />)
+      const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
     return (
       <View style={styles.container}>
          <FlatList data={this.state.todos} keyExtractor={(item, index) => item.title} renderItem={({item}) => <ToDo data={item} />} />
@@ -62,7 +66,7 @@ _retrieveData = async () => {
           style={styles.button}
           onPress={() => {
             /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate('Edit', {
+            this.props.navigation.navigate('Add', {
               itemId: 86,
               message: 'anything you want here',
               handleTodoAdd: this.handleTodoAdd.bind(this)

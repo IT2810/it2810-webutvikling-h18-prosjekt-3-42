@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStora
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from  './Components/HomeScreen.js';
 import ToDoAdd from './Components/ToDoAdd.js';
+import ToDoEdit from './Components/ToDoEdit.js';
 
 
 export default class App extends React.Component {
@@ -17,7 +18,8 @@ export default class App extends React.Component {
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
-    Edit: ToDoAdd,
+    Edit: ToDoEdit,
+    Add: ToDoAdd,
   },
   {
       initialRouteName: 'Home',
