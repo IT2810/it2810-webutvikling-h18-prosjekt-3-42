@@ -78,11 +78,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
-    alignItems: 'center',
+    alignItems: 'stretch',
     justifyContent: 'center',
   },
   button: {
       margin:10,
       width:'50%',
+      alignSelf:'center'
   },
 });
