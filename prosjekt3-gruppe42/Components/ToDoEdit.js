@@ -11,7 +11,7 @@ export default class ToDoEdit extends React.Component {
         }
     }
     static navigationOptions = {
-        title: 'Todo Edit',
+        title: 'Edit Todo',
       };
   
   componentWillMount() {

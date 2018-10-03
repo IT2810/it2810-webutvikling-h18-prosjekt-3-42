@@ -21,7 +21,30 @@ class ToDo extends React.Component {
         this.prioColors = ['#8FC93A', '#E4CC37', '#CC2936'];
     }
 
+    // Math stuff
+    // https://www.movable-type.co.uk/scripts/latlong.html
+    haversine(currentLocation = this.props.currentLocation, location = this.props.data.location[0]) {
+        const R = 6371e3
+        const theta_1 = this.toRadians(currentLocation.latitude)
+        const theta_2 = this.toRadians(location.latitude)
+        const delta_theta = this.toRadians(location.latitude - currentLocation.latitude)
+        const delta_lambda = this.toRadians(location.longitude - currentLocation.longitude)
+
+        const a = Math.sin(delta_theta / 2) * Math.sin(delta_theta / 2) + Math.cos(theta_1) * Math.cos(theta_2) * Math.sin(delta_lambda / 2) * Math.sin(delta_lambda / 2)
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+
+        const d = R * c
+
+        return d
+    }
+
+    toRadians(number) {
+        return number * (Math.PI / 180)
+    }
+
     render() {
+        this.haversine()
         var date = this.props.data.date.year != "" ? new Date(this.props.data.date.year, this.props.data.date.month, this.props.data.date.day) : new Date()
         // var day = date.toLocaleString(this.locale, { day: "2-digit"})
         // var month = date.toLocaleString(this.locale, {month: "long"})
@@ -42,6 +65,7 @@ class ToDo extends React.Component {
             <MaterialIcons name="edit" size={18} color="white" />
             </Button>*/}
 
+            <Text>{"Distance: " + (this.haversine() > 1000 ? Math.floor(this.haversine() / 1000) + " km" : this.haversine().toFixed(0) + " m")}</Text>
             <Text style={ styles.description }>{this.props.data.description}</Text>
             <View style={{
                 flexDirection: "row",

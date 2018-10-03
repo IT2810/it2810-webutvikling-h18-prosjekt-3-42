@@ -9,27 +9,31 @@ import { Constants, Location, Permissions, MapView } from 'expo';
 
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-      title:'Home'
-  }
   constructor() {
         super()
         this.state = {
                 YearMonthDay: "Loading",
                 todos: [],
                 location: {
-                  coords: {
                     latitude: 0,
                     longitude: 0,
-                  }
                 },
-                position: 
-                  [
-                    {street: "No position found"}
-                  ]
+                currentLocation: {
+                  latitude: 0,
+                  longitude: 0,
+                }
               
         }
       }
+
+  static navigationOptions = {
+      title:'Todo'
+  }
+
+  componentDidMount() {
+      this._retrieveData()
+      this._getLocationAsync()
+  }
 
 _storeData = async () => {
   try {
@@ -64,25 +68,17 @@ _retrieveData = async () => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    let position = await Location.reverseGeocodeAsync(location.coords)
-    this.setState({ location: location }, console.log(position));
-    this.setState({ position: position })
-    //let coords = await Location.geocodeAsync("Storgata 1, Oslo")
-    //console.log("Coords:", coords)
-    console.log( Location.geocodeAsync("Storgata 1, Oslo"))
+    // This might go boom
+    this.setState({ currentLocation: location.coords }, console.log(location.coords))
   };
 
-  componentDidMount() {
-      this._retrieveData()
-      this._getLocationAsync()
-  }
 
   handleTodoAdd( data ) {
       this.setState(prevState => ({
           todos: [...prevState.todos, data]
       }),this._storeData)
 
-      console.log(this.state.todos)
+      //console.log(this.state.todos)
   }
 
   navigate(place) {
@@ -110,41 +106,18 @@ _retrieveData = async () => {
   }
 
   render() {
+      console.log(this.state)
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
-      let map = this.state.location.coords.longitude !== 0 ? <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: this.state.location.coords.latitude,
-          longitude: this.state.location.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}/> : <Text>Please wait for the gps coords to load</Text>
-
     return (
       <View style={styles.container}>
          <FlatList 
-         extraData={this.state} 
-         data={this.state.todos} 
-         keyExtractor={(item, index) => item.key} 
-         renderItem={({item}) => <ToDo data={item} 
-                                  onChangeTodo={this.onChangeTodo.bind(this)}
-                                  onDeleteTodo={this.onDeleteTodo.bind(this)}/>} />
-        {/*<Button
-          title="Go to Details"
-          mode="contained"
-          color='#f4511e'
-          style={styles.button}
-          onPress={() => {
-            // 1. Navigate to the Details route with params
-            this.props.navigation.navigate('Add', {
-              itemId: 86,
-              message: 'anything you want here',
-              handleTodoAdd: this.handleTodoAdd.bind(this)
-            });
-          }}
-            ><MaterialIcons name="edit" size={18} color="white" />
-      Add new ToDo </Button>
-      */}
+          extraData={this.state} 
+          data={this.state.todos} 
+          keyExtractor={(item, index) => item.key} 
+          renderItem={({item}) => <ToDo data={item} 
+          currentLocation={this.state.currentLocation}
+          onChangeTodo={this.onChangeTodo.bind(this)}
+          onDeleteTodo={this.onDeleteTodo.bind(this)}/>} />
           <TouchableOpacity
                 onPress={() => 
                   this.props.navigation.navigate('Add', {
@@ -165,8 +138,6 @@ _retrieveData = async () => {
             >
             <MaterialIcons name="add" size={36} color="white" />
             </TouchableOpacity>
-            <Text>{ this.state.position[0].street }</Text>
-            {map}
   {/* </FlatList> */}
   </View>
     );
