@@ -114,7 +114,7 @@ class ToDoAdd extends React.Component {
         onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
         onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
 
-        <HelperText type="error" visible={ !this.state.searched } >You must search for a location before saving</HelperText>
+        <HelperText type="error" visible={ !this.state.searched } >You must search for a location before saving (Push the icon)</HelperText>
 
         <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
 
@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
       margin:10,
       width:'80%',
       backgroundColor: '#f5f5f5',
+      elevation: 0,
   }
 });
 
