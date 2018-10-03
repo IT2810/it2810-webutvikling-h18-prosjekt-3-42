@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from  './Components/HomeScreen.js';
 import ToDoAdd from './Components/ToDoAdd.js';
 import ToDoEdit from './Components/ToDoEdit.js';
+import { headerColor } from './assets/styles.js'
 
 
 export default class App extends React.Component {
@@ -25,7 +26,7 @@ const RootStack = createStackNavigator(
       initialRouteName: 'Home',
       navigationOptions: {
           headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: headerColor,
           },
           headerTintColor:'#fff'
       },

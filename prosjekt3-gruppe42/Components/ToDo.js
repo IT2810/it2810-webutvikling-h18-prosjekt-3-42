@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
+import { todoBackgroundColor, todoEditColor, todoDeleteColor, todoTitleColor, todoDescriptionColor } from '../assets/styles'
 
 
 class ToDo extends React.Component {
@@ -41,7 +42,11 @@ class ToDo extends React.Component {
             <MaterialIcons name="edit" size={18} color="white" />
             </Button>*/}
 
-            <Text>{this.props.data.description}</Text>
+            <Text style={ styles.description }>{this.props.data.description}</Text>
+            <View style={{
+                flexDirection: "row",
+                alignSelf: "flex-end",
+        }}>
             <TouchableOpacity
                 onPress={() => 
                     this.props.navigation.navigate('Edit', {
@@ -54,23 +59,38 @@ class ToDo extends React.Component {
                 justifyContent:'center',
                 width:30,
                 height:30,
-                backgroundColor:'#f4511e',
+                backgroundColor: todoEditColor,
                 borderRadius:30,
                 }}
             >
             <MaterialIcons name="edit" size={18} color="white" />
             </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => this.props.onDeleteTodo(this.props.data)}
+                style={{
+                alignItems:'center',
+                alignSelf: 'flex-end',
+                justifyContent:'center',
+                width:30,
+                height:30,
+                backgroundColor: todoDeleteColor,
+                borderRadius:30,
+                marginLeft: 10,
+                }}
+            >
+            <MaterialIcons name="delete" size={18} color="white" />
+            </TouchableOpacity>
+            </View>
         </Surface>);
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
+        backgroundColor: todoBackgroundColor,
         // alignItems: 'center',
         margin:8,
         flex:1,
-        maxHeight:200,
         minHeight:100,
         padding:10,
         // justifyContent: 'center',
@@ -80,7 +100,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         // borderBottomColor: '#e0e0e0',
         fontSize:20,
-        color:'grey',
+        color: todoTitleColor,
         // padding: 5,
         fontWeight: 'bold'
     },
@@ -89,6 +109,9 @@ const styles = StyleSheet.create({
         height: 18,
         borderRadius: 9,
         padding: 0,
+    },
+    description: {
+        color: todoDescriptionColor
     }
 });
 

@@ -3,6 +3,9 @@ import { StyleSheet, Text, View,FlatList,  TouchableOpacity, DatePickerAndroid, 
 import {Button} from 'react-native-paper';
 import ToDo from './ToDo.js'
 import { MaterialIcons } from '@expo/vector-icons';
+import { addColor } from '../assets/styles';
+import { Constants, Location, Permissions, MapView } from 'expo';
+
 
 
 export default class HomeScreen extends React.Component {
@@ -14,6 +17,17 @@ export default class HomeScreen extends React.Component {
         this.state = {
                 YearMonthDay: "Loading",
                 todos: [],
+                location: {
+                  coords: {
+                    latitude: 0,
+                    longitude: 0,
+                  }
+                },
+                position: 
+                  [
+                    {street: "No position found"}
+                  ]
+              
         }
       }
 
@@ -40,8 +54,27 @@ _retrieveData = async () => {
    }
 }
 
+  // https://docs.expo.io/versions/latest/sdk/location.html
+ _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    let position = await Location.reverseGeocodeAsync(location.coords)
+    this.setState({ location: location }, console.log(position));
+    this.setState({ position: position })
+    //let coords = await Location.geocodeAsync("Storgata 1, Oslo")
+    //console.log("Coords:", coords)
+    console.log( Location.geocodeAsync("Storgata 1, Oslo"))
+  };
+
   componentDidMount() {
       this._retrieveData()
+      this._getLocationAsync()
   }
 
   handleTodoAdd( data ) {
@@ -63,15 +96,39 @@ _retrieveData = async () => {
         oldState.todos[i] = data
       }
     }
-    this.setState(oldState)
+    this.setState(oldState, this._storeData)
+  }
 
+  onDeleteTodo(data) {
+    let oldState = this.state
+    for (let i = 0; i < oldState.todos.length; i++) {
+      if (oldState.todos[i].key == data.key) {
+        oldState.todos.splice(i, 1)
+      }
+    }
+    this.setState(oldState, this._storeData)
   }
 
   render() {
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
+      let map = this.state.location.coords.longitude !== 0 ? <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: this.state.location.coords.latitude,
+          longitude: this.state.location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}/> : <Text>Please wait for the gps coords to load</Text>
+
     return (
       <View style={styles.container}>
-         <FlatList extraData={this.state} data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} onChangeTodo={this.onChangeTodo.bind(this)} />} />
+         <FlatList 
+         extraData={this.state} 
+         data={this.state.todos} 
+         keyExtractor={(item, index) => item.key} 
+         renderItem={({item}) => <ToDo data={item} 
+                                  onChangeTodo={this.onChangeTodo.bind(this)}
+                                  onDeleteTodo={this.onDeleteTodo.bind(this)}/>} />
         {/*<Button
           title="Go to Details"
           mode="contained"
@@ -101,13 +158,15 @@ _retrieveData = async () => {
                 justifyContent:'center',
                 width:60,
                 height:60,
-                backgroundColor:'#f4511e',
+                backgroundColor: addColor,
                 borderRadius:60,
                 margin: 10,
                 }}
             >
             <MaterialIcons name="add" size={36} color="white" />
             </TouchableOpacity>
+            <Text>{ this.state.position[0].street }</Text>
+            {map}
   {/* </FlatList> */}
   </View>
     );
