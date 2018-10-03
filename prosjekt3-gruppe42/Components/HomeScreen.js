@@ -58,15 +58,20 @@ _retrieveData = async () => {
 
   onChangeTodo(data) {
     let oldState = this.state
-    let index = oldState.todos.indexOf(data)
-    console.log(index)
+    for (let i = 0; i < oldState.todos.length; i++) {
+      if (oldState.todos[i].key == data.key) {
+        oldState.todos[i] = data
+      }
+    }
+    this.setState(oldState)
+
   }
 
   render() {
       const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
     return (
       <View style={styles.container}>
-         <FlatList data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} onChangeTodo={this.onChangeTodo.bind(this)} />} />
+         <FlatList extraData={this.state} data={this.state.todos} keyExtractor={(item, index) => item.key} renderItem={({item}) => <ToDo data={item} onChangeTodo={this.onChangeTodo.bind(this)} />} />
         {/*<Button
           title="Go to Details"
           mode="contained"

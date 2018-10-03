@@ -7,16 +7,15 @@ export default class ToDoEdit extends React.Component {
     constructor(){
         super()
         this.state = {
-          data: {}
         }
     }
     static navigationOptions = {
         title: 'Todo Edit',
       };
   
-  componentDidMount() {
+  componentWillMount() {
     let data = this.props.navigation.getParam("data")
-    this.setState({data}, console.log(this.state))
+    this.setState(data)
   }
 
   async pickDate() {
@@ -24,7 +23,7 @@ export default class ToDoEdit extends React.Component {
     const {action, year, month, day} = await DatePickerAndroid.open({
       // Use `new Date()` for current date.
       // May 25 2020. Month 0 is January.
-      date: new Date(this.state.data.date.year, this.state.data.date.month, this.state.data.date.day)
+      date: new Date(this.state.date.year, this.state.date.month, this.state.date.day)
     });
     if (action !== DatePickerAndroid.dismissedAction) {
       // Selected year, month (0-11), day
@@ -37,23 +36,22 @@ export default class ToDoEdit extends React.Component {
   } 
 
   render() {
-      const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
-      this.props.navigation.getParam("onChangeTodo")("HEi, dette funker nesten")
-      console.log(this.state)
+    const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
+    console.log("render", this.state)
     return (
       <View style={styles.container}>
         <TextInput
             label="Name"
             style={styles.textBox}
             underlineColor = '#f4511e'
-            onChangeText={(text) => this.setState({data: {title:text}})} 
-            value={this.state.data.title} />
+            onChangeText={(text) => this.setState({title:text})} 
+            value={this.state.title} />
         <TextInput
             label="Description"
             style={styles.textBox}
             multiline={true}
             underlineColor = '#f4511e'
-            onChangeText={(text) => this.setState({description:text})} value={this.state.data.description} />
+            onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
 
             <Button mode="contained" color='#f4511e' style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
 

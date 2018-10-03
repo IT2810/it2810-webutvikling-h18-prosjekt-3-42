@@ -13,12 +13,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 class ToDo extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.locale = "nb-no";
         this.months = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember']
         this.prioColors = ['#8FC93A', '#E4CC37', '#CC2936'];
     }
+
     render() {
         var date = this.props.data.date.year != "" ? new Date(this.props.data.date.year, this.props.data.date.month, this.props.data.date.day) : new Date()
         // var day = date.toLocaleString(this.locale, { day: "2-digit"})
