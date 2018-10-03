@@ -13,12 +13,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 class ToDo extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.locale = "nb-no";
         this.months = ['januar', 'februar', 'mars', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'desember']
         this.prioColors = ['#8FC93A', '#E4CC37', '#CC2936'];
     }
+
     render() {
         var date = this.props.data.date.year != "" ? new Date(this.props.data.date.year, this.props.data.date.month, this.props.data.date.day) : new Date()
         // var day = date.toLocaleString(this.locale, { day: "2-digit"})
@@ -26,7 +27,6 @@ class ToDo extends React.Component {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        console.log(this.prioColors)
         // console.log(date.toLocaleString(this.locale, {year: "numeric"}))
         // var year = this.props.data.date.getFullYear();
         // var month =  this.props.data.date.toLocaleString(locale, {month:'long'});
@@ -43,7 +43,11 @@ class ToDo extends React.Component {
 
             <Text>{this.props.data.description}</Text>
             <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("Edit") } 
+                onPress={() => 
+                    this.props.navigation.navigate('Edit', {
+                    data: this.props.data,
+                    onChangeTodo: this.props.onChangeTodo,
+                })}
                 style={{
                 alignItems:'center',
                 alignSelf: 'flex-end',
