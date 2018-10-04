@@ -69,7 +69,7 @@ _retrieveData = async () => {
 
     let location = await Location.getCurrentPositionAsync({});
     // This might go boom
-    this.setState({ currentLocation: location.coords }, console.log(location.coords))
+    this.setState({ currentLocation: location.coords }, console.log("Currentlocation coords:", location.coords))
   };
 
 
