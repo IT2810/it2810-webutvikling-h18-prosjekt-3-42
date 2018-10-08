@@ -20,19 +20,22 @@ class ToDoAdd extends React.Component {
                 latitude: 0,
                 longitude: 0,
               },
-              position: 
+              position:
               [
                 {street: "No position found"}
               ]
-          
+
         }
     }
-  
+
   static navigationOptions = {
     title: 'Add Todo',
   };
 
   componentDidMount() {
+      today = new Date();
+      this.setState({date:{year:today.getFullYear(), month:today.getMonth(), day:today.getDate()}})
+
   }
 
   async pickDate() {
@@ -110,7 +113,7 @@ class ToDoAdd extends React.Component {
             underlineColor = {underlineColor}
             onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
 
-        <Searchbar placeholder="Location" style={styles.textBox} 
+        <Searchbar placeholder="Location" style={styles.textBox}
         onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
         onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
 
@@ -118,7 +121,7 @@ class ToDoAdd extends React.Component {
 
         <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
 
-        <Button mode="contained" dark={true} color={ saveColor } style={styles.button} title="Save" 
+        <Button mode="contained" dark={true} color={ saveColor } style={styles.button} title="Save"
           disabled={!this.state.searched}
           onPress={() => {this.props.navigation.getParam('handleTodoAdd')(this.state); this.props.navigation.goBack()}}> Save </Button>
 

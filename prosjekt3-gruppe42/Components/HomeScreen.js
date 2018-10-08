@@ -22,7 +22,7 @@ export default class HomeScreen extends React.Component {
                   latitude: 0,
                   longitude: 0,
                 }
-              
+
         }
       }
 
@@ -104,22 +104,52 @@ _retrieveData = async () => {
     }
     this.setState(oldState, this._storeData)
   }
+  checkTitle(item) {
+      return item.title == "HELLO";
+  }
 
+  sortKey(x, y, reverse = false){
+    if (reverse) {
+        return parseInt(x.key) - parseInt(y.key);
+    } else {
+        return -(parseInt(x.key) - parseInt(y.key))
+    }
+  }
+  sortTitle( x, y, reverse = false) {
+      if (reverse) {
+            console.log("Comparing", x.title, y.title, "result ", x.title < y.title);
+      } else {
+            console.log("Comparing", x.title, y.title, "result ", x.title > y.title);
+      }
+      sorted  = reverse ? ( x.title > y.title) : ( x.title < y.title)
+      return sorted ? 1 : -1;
+  }
+
+  sortDay(x, y) {
+      // console.log ( "Date1", x.date.year, x.date.month, x.date.day)
+      // console.log ( "Date2", y.date.year, y.date.month, y.date.day)
+      // console.log("Date 1 ", new Date ( x.date.year, x.date.month, x.date.day),'Date 2 ', new Date( y.date.year, y.date.month, y.date.day), "date 1 > date 2: ", new Date( x.date.year, x.date.month, x.date.day) > new Date ( y.date.year, y.date.month, y.date.day)  )
+      return new Date ( x.date.year, x.date.month, x.date.day) > new Date ( y.date.year, y.date.month, y.date.day) ? 1 : -1;
+  }
   render() {
-      console.log(this.state)
-      const todoList = this.state.todos.map((x, i) => <ToDo navigator={this.navigate.bind(this)} key={i} data={x} />)
+
+      // console.log("FILTER ME", this.state.todos.filter(item => this.checkTitle(item)))
+      // console.log("SORT ME", this.state.todos.sort((x, y) => this.sortTitle(x, y)))
+      // console.log("SORT ME DEUX", this.state.todos.sort((x, y) => x.title > y.title ? 1 : -1))
+      var sortedList = this.state.todos.sort((x, y) => this.sortDay(x, y));
+      // console.log(this.state)
     return (
       <View style={styles.container}>
-         <FlatList 
-          extraData={this.state} 
-          data={this.state.todos} 
-          keyExtractor={(item, index) => item.key} 
-          renderItem={({item}) => <ToDo data={item} 
+         <FlatList
+          extraData={this.state}
+          data={sortedList}
+          keyExtractor={(item, index) => item.key}
+          renderItem={({item}) => <ToDo data={item}
           currentLocation={this.state.currentLocation}
           onChangeTodo={this.onChangeTodo.bind(this)}
           onDeleteTodo={this.onDeleteTodo.bind(this)}/>} />
           <TouchableOpacity
-                onPress={() => 
+                onPress={() =>
                   this.props.navigation.navigate('Add', {
                   itemId: 86,
                   message: 'anything you want here',
