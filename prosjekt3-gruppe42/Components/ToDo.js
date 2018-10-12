@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
-import { todoBackgroundColor, todoEditColor, todoDeleteColor, todoTitleColor, todoDescriptionColor } from '../assets/styles'
+import { todoBackgroundColor, todoEditColor, todoDeleteColor, todoTitleColor, todoDescriptionColor } from '../assets/styles';
+import { haversine, toRadians } from '../functions';
 
 
 class ToDo extends React.Component {
@@ -23,6 +24,7 @@ class ToDo extends React.Component {
 
     // Math stuff
     // https://www.movable-type.co.uk/scripts/latlong.html
+    /*
     haversine(currentLocation = this.props.currentLocation, location = this.props.data.location[0]) {
         const R = 6371e3
         const theta_1 = this.toRadians(currentLocation.latitude)
@@ -41,10 +43,9 @@ class ToDo extends React.Component {
 
     toRadians(number) {
         return number * (Math.PI / 180)
-    }
+    }*/
 
     render() {
-        this.haversine()
         var date = this.props.data.date.year != "" ? new Date(this.props.data.date.year, this.props.data.date.month, this.props.data.date.day) : new Date()
         // var day = date.toLocaleString(this.locale, { day: "2-digit"})
         // var month = date.toLocaleString(this.locale, {month: "long"})
@@ -65,7 +66,7 @@ class ToDo extends React.Component {
             <MaterialIcons name="edit" size={18} color="white" />
             </Button>*/}
 
-            <Text>{"Distance: " + (this.haversine() > 1000 ? Math.floor(this.haversine() / 1000) + " km" : this.haversine().toFixed(0) + " m")}</Text>
+            <Text>{"Distance: " + (haversine(this.props.currentLocation, this.props.data.location[0]) > 5000 ? Math.floor(haversine(this.props.currentLocation, this.props.data.location[0]) / 1000) + " km" : haversine(this.props.currentLocation, this.props.data.location[0]).toFixed(0) + " m")}</Text>
             <Text style={ styles.description }>{this.props.data.description}</Text>
             <View style={{
                 flexDirection: "row",
