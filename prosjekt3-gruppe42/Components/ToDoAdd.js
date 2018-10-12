@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Picker} from 'react-native';
 import { TextInput, Button, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { saveColor, underlineColor, dateColor } from '../assets/styles'
-import { Constants, Location, Permissions, MapView } from 'expo';
+import { Constants, Location, Permissions, MapView} from 'expo';
 import { Feather } from '@expo/vector-icons';
 
 class ToDoAdd extends React.Component {
@@ -14,6 +14,7 @@ class ToDoAdd extends React.Component {
             searched: false,
             key: new Date().getTime().toString(),
             title: "",
+            priority:0,
             date: {year:"", month:"", day:""},
             description:"",
             location: {
@@ -120,7 +121,14 @@ class ToDoAdd extends React.Component {
         <HelperText type="error" visible={ !this.state.searched } >You must search for a location before saving (Push the icon)</HelperText>
 
         <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
-
+            <Picker
+                selectedValue={this.state.priority}
+                style={{ height: 50, width: 200 }}
+                onValueChange={(itemValue, itemIndex) => this.setState({priority: itemValue})}>
+                <Picker.Item label="High priority" value={2} />
+                <Picker.Item label="Medium priority" value={1} />
+                <Picker.Item label="Low priority" value={0} />
+            </Picker>
         <Button mode="contained" dark={true} color={ saveColor } style={styles.button} title="Save"
           disabled={!this.state.searched}
           onPress={() => {this.props.navigation.getParam('handleTodoAdd')(this.state); this.props.navigation.goBack()}}> Save </Button>

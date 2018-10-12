@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Picker} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { saveColor, underlineColor, dateColor } from '../assets/styles'
@@ -13,7 +13,7 @@ export default class ToDoEdit extends React.Component {
     static navigationOptions = {
         title: 'Edit Todo',
       };
-  
+
   componentWillMount() {
     let data = this.props.navigation.getParam("data")
     this.setState(data)
@@ -34,7 +34,7 @@ export default class ToDoEdit extends React.Component {
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
     }
-  } 
+  }
 
   render() {
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
@@ -45,7 +45,7 @@ export default class ToDoEdit extends React.Component {
             label="Name"
             style={styles.textBox}
             underlineColor = { underlineColor }
-            onChangeText={(text) => this.setState({title:text})} 
+            onChangeText={(text) => this.setState({title:text})}
             value={this.state.title} />
         <TextInput
             label="Description"
@@ -55,8 +55,15 @@ export default class ToDoEdit extends React.Component {
             onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
 
             <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
-
-        <Button mode="contained" dark={ true }  color={ saveColor } style={styles.button} title="Save" 
+            <Picker
+                selectedValue={this.state.priority}
+                style={{ height: 50, width: 200 }}
+                onValueChange={(itemValue, itemIndex) => this.setState({priority: itemValue})}>
+                <Picker.Item label="High priority" value={2} />
+                <Picker.Item label="Medium priority" value={1} />
+                <Picker.Item label="Low priority" value={0} />
+            </Picker>
+        <Button mode="contained" dark={ true }  color={ saveColor } style={styles.button} title="Save"
           onPress={() => {this.props.navigation.getParam('onChangeTodo')(this.state); this.props.navigation.goBack()}}> Save </Button>
       </View>
     );
