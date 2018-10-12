@@ -1,40 +1,101 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage} from 'react-native';
-import {TextInput, Button} from 'react-native-paper';
+import { TextInput, Button, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
+import { saveColor, underlineColor, dateColor } from '../assets/styles'
+import { Constants, Location, Permissions, MapView } from 'expo';
+import { Feather } from '@expo/vector-icons';
 
 class ToDoAdd extends React.Component {
     constructor(){
         super()
         this.state = {
+            searchbar: "",
+            searched: false,
             key: new Date().getTime().toString(),
             title: "",
             date: {year:"", month:"", day:""},
-            description:""
+            description:"",
+            location: {
+                latitude: 0,
+                longitude: 0,
+              },
+              position:
+              [
+                {street: "No position found"}
+              ]
+
         }
     }
-    static navigationOptions = {
-        title: 'Todo Add',
-      };
 
-      async pickDate() {
-            try {
-          const {action, year, month, day} = await DatePickerAndroid.open({
-            // Use `new Date()` for current date.
-            // May 25 2020. Month 0 is January.
-            date: new Date()
-          });
-          if (action !== DatePickerAndroid.dismissedAction) {
-            // Selected year, month (0-11), day
-            this.setState({date: {year: year, month: month, day: day}})
-            // console.warn(action, year, month, day)
-          }
-        } catch ({code, message}) {
-          console.warn('Cannot open date picker', message);
-        }
+  static navigationOptions = {
+    title: 'Add Todo',
+  };
+
+  componentDidMount() {
+      today = new Date();
+      this.setState({date:{year:today.getFullYear(), month:today.getMonth(), day:today.getDate()}})
+
+  }
+
+  async pickDate() {
+        try {
+      const {action, year, month, day} = await DatePickerAndroid.open({
+        // Use `new Date()` for current date.
+        // May 25 2020. Month 0 is January.
+        date: new Date()
+      });
+      if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
+        this.setState({date: {year: year, month: month, day: day}})
+        // console.warn(action, year, month, day)
       }
+    } catch ({code, message}) {
+      console.warn('Cannot open date picker', message);
+    }
+  }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    let position = await Location.reverseGeocodeAsync(location)
+    this.setState({ location: location.coords }, console.log(position));
+    this.setState({ position: position })
+    //let coords = await Location.geocodeAsync("Storgata 1, Oslo")
+    //console.log("Coords:", coords)
+    console.log(await Location.geocodeAsync("Storgata 1, Oslo"))
+  };
+
+  _updateTodoCoordinates = async (place) => {
+    console.log(place)
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+    let coords = await Location.geocodeAsync(place)
+    //console.log(coords)
+    this.setState({ location: coords })
+    this.setState({searched: true})
+  }
 
   render() {
+    //console.log(this.state)
+    /*let map = this.state.location.longitude !== 0 ? <MapView
+        style={{ flex: 1 , width: "80%", height: "80%"}}
+        initialRegion={{
+          latitude: this.state.location.latitude,
+          longitude: this.state.location.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}/> : <Text>Please wait for the gps coords to load</Text>
+        */
       const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
       // console.log(this.props.navigation.getParam('wtf'))
       //fdfkdfjk
@@ -43,19 +104,27 @@ class ToDoAdd extends React.Component {
         <TextInput
             label="Name"
             style={styles.textBox}
-            underlineColor = '#f4511e'
+            underlineColor = {underlineColor}
             onChangeText={(text) => this.setState({title:text})} value={this.state.title} />
         <TextInput
             label="Description"
             style={styles.textBox}
             multiline={true}
-            underlineColor = '#f4511e'
+            underlineColor = {underlineColor}
             onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
 
-            <Button mode="contained" color='#f4511e' style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
+        <Searchbar placeholder="Location" style={styles.textBox}
+        onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
+        onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
 
-        <Button mode="contained"  color='#f4511e' style={styles.button} title="Save" 
+        <HelperText type="error" visible={ !this.state.searched } >You must search for a location before saving (Push the icon)</HelperText>
+
+        <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
+
+        <Button mode="contained" dark={true} color={ saveColor } style={styles.button} title="Save"
+          disabled={!this.state.searched}
           onPress={() => {this.props.navigation.getParam('handleTodoAdd')(this.state); this.props.navigation.goBack()}}> Save </Button>
+
       </View>
     );
   }
@@ -74,8 +143,9 @@ const styles = StyleSheet.create({
   },
   textBox: {
       margin:10,
-      width:'50%',
-      backgroundColor: '#f5f5f5'
+      width:'80%',
+      backgroundColor: '#f5f5f5',
+      elevation: 0,
   }
 });
 
