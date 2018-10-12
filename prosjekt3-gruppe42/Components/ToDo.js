@@ -51,16 +51,17 @@ class ToDo extends React.Component {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
+        console.log(this.props.data.priority)
         // console.log(date.toLocaleString(this.locale, {year: "numeric"}))
         // var year = this.props.data.date.getFullYear();
         // var month =  this.props.data.date.toLocaleString(locale, {month:'long'});
         return (
         <Surface style={styles.container}>
-            <Text style={[styles.title, {borderBottomColor: this.prioColors[0]}]}>{this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } </Text>
-            {/*<Button 
+            <Text style={[styles.title, {borderBottomColor: this.prioColors[this.props.data.priority]}]}>{this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } </Text>
+            {/*<Button
             style={styles.button}
             mode="contained"
-            onPress={() => this.props.navigation.navigate("Edit") } 
+            onPress={() => this.props.navigation.navigate("Edit") }
             title="edit" color='#f4511e'>
             <MaterialIcons name="edit" size={18} color="white" />
             </Button>*/}
@@ -72,7 +73,7 @@ class ToDo extends React.Component {
                 alignSelf: "flex-end",
         }}>
             <TouchableOpacity
-                onPress={() => 
+                onPress={() =>
                     this.props.navigation.navigate('Edit', {
                     data: this.props.data,
                     onChangeTodo: this.props.onChangeTodo,
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         elevation:2
     },
     title: {
-        borderBottomWidth: 1,
+        borderBottomWidth: 2,
         // borderBottomColor: '#e0e0e0',
         fontSize:20,
         color: todoTitleColor,
