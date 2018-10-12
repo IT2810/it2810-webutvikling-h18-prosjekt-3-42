@@ -51,13 +51,14 @@ class ToDo extends React.Component {
         var year = date.getFullYear();
         var month = date.getMonth();
         var day = date.getDate();
-        console.log(this.props.data.priority)
+        console.log('completed', this.props.data.completed)
+        var completed = this.props.data.completed ? <MaterialIcons name="check" size={20} color={'green'} /> : null
         // console.log(date.toLocaleString(this.locale, {year: "numeric"}))
         // var year = this.props.data.date.getFullYear();
         // var month =  this.props.data.date.toLocaleString(locale, {month:'long'});
         return (
-        <Surface style={styles.container}>
-            <Text style={[styles.title, {borderBottomColor: this.prioColors[this.props.data.priority]}]}>{this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } </Text>
+        <Surface style={this.props.data.completed ? styles.containerCompleted : styles.container}>
+            <Text style={[styles.title, {borderBottomColor: this.prioColors[this.props.data.priority]}]}> {this.props.data.title} - Deadline: {day+ ". " + this.months[month] + ' (' + year + ')' } {completed} </Text>
             {/*<Button
             style={styles.button}
             mode="contained"
@@ -114,6 +115,15 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: todoBackgroundColor,
         // alignItems: 'center',
+        margin:8,
+        flex:1,
+        minHeight:100,
+        padding:10,
+        // justifyContent: 'center',
+        elevation:2
+    },
+    containerCompleted: {
+        backgroundColor: "#eeeeee",
         margin:8,
         flex:1,
         minHeight:100,
