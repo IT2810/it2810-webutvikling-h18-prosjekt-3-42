@@ -14,6 +14,7 @@ class ToDoAdd extends React.Component {
             searched: false,
             key: new Date().getTime().toString(),
             title: "",
+            completed: false,
             priority:0,
             date: {year:"", month:"", day:""},
             description:"",
