@@ -190,8 +190,6 @@ _retrieveData = async () => {
           >
           <MaterialIcons name="add" size={36} color="white" />
           </TouchableOpacity>
-
-  {/* </FlatList> */}
   </View>
     );
   }
