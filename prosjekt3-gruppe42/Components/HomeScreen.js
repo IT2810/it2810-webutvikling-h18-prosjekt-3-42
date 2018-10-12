@@ -169,7 +169,6 @@ _retrieveData = async () => {
             <Picker.Item label="Title" value={2}/>
             <Picker.Item label="Key" value={3} />
         </Picker>
-
         <TouchableOpacity
           onPress={() =>
               this.props.navigation.navigate('Add', {
