@@ -24,7 +24,13 @@ export default class HomeScreen extends React.Component {
                 },
                 sortMethod: this.sortDate,
                 pickerValue: 0,
-                sortMethods: [this.sortDate.bind(this), this.sortDistance.bind(this), this.sortTitle.bind(this), this.sortKey.bind(this)]
+                sortMethods: [
+                  this.sortDate.bind(this), 
+                  this.sortDistance.bind(this), 
+                  this.sortTitle.bind(this), 
+                  this.sortKey.bind(this), 
+                  this.sortPriority.bind(this)
+                ]
 
         }
       //this.sortDistance = this.sortDistance.bind(this)
@@ -115,6 +121,7 @@ _retrieveData = async () => {
         return parseInt(x.key) - parseInt(y.key)
     }
   }
+
   sortTitle(x, y, reverse = false) {
       /*
       if (reverse) {
@@ -127,11 +134,14 @@ _retrieveData = async () => {
       return sorted ? 1 : -1;
   }
 
+  sortPriority(x, y) {
+    return y.priority - x.priority
+  }
+
   sortDate(x, y) {
       // console.log ( "Date1", x.date.year, x.date.month, x.date.day)
       // console.log ( "Date2", y.date.year, y.date.month, y.date.day)
       // console.log("Date 1 ", new Date ( x.date.year, x.date.month, x.date.day),'Date 2 ', new Date( y.date.year, y.date.month, y.date.day), "date 1 > date 2: ", new Date( x.date.year, x.date.month, x.date.day) > new Date ( y.date.year, y.date.month, y.date.day)  )
-      console.log(x.date.year, y.date.year, new Date (x.date.year, x.date.month, x.date.day) - new Date ( y.date.year, y.date.month, y.date.day))
       return new Date (x.date.year, x.date.month, x.date.day) - new Date ( y.date.year, y.date.month, y.date.day);
 
   }
@@ -168,6 +178,7 @@ _retrieveData = async () => {
             <Picker.Item label="Distance" value={1} />
             <Picker.Item label="Title" value={2}/>
             <Picker.Item label="Key" value={3} />
+            <Picker.Item label="Priority" value={4} />
         </Picker>
 
         <TouchableOpacity
