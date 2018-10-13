@@ -155,8 +155,10 @@ _retrieveData = async () => {
       // console.log("FILTER ME", this.state.todos.filter(item => this.checkTitle(item)))
       // console.log("SORT ME", this.state.todos.sort((x, y) => this.sortTitle(x, y)))
       // console.log("SORT ME DEUX", this.state.todos.sort((x, y) => x.title > y.title ? 1 : -1))
-
-      const sortedList = this.state.todos.sort(this.state.sortMethod);
+      const completedList = this.state.todos.filter(x => x.completed).sort(this.state.sortMethod)
+      const notCompletedList= this.state.todos.filter(x => !x.completed).sort(this.state.sortMethod)
+      const sortedList = notCompletedList.concat(completedList)
+      //const sortedList = this.state.todos.sort(this.state.sortMethod);
       console.log(this.state.sortMethod.name)
       // console.log(this.state)
     return (
