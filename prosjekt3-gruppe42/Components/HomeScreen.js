@@ -225,6 +225,10 @@ export default class HomeScreen extends React.Component {
           >
             <MaterialIcons name="add" size={36} color="white" />
           </TouchableOpacity>
+          <Button onPress={() =>
+            this.props.navigation.navigate("Map", {
+              data: this.state.todos,
+            })}>Text</Button>
         </View>
       </View>
     );
