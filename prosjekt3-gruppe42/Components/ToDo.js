@@ -45,7 +45,6 @@ class ToDo extends React.Component {
     var year = date.getFullYear();
     var month = date.getMonth();
     var day = date.getDate();
-    console.log("completed", this.props.data.completed);
     var completed = this.props.data.completed ? (<MaterialIcons name="check" size={20} color={"green"} />) : null
     return (
       <Surface
@@ -53,21 +52,20 @@ class ToDo extends React.Component {
           this.props.data.completed
             ? styles.containerCompleted
             : styles.container
-        }
-      >
+        }>
         <Text
           style={[
             styles.title,
             { borderBottomColor: this.prioColors[this.props.data.priority] }
-          ]}
-        >
-          {" "}
-          {this.props.data.title} - Deadline:{" "}
+          ]}>
+          {" " +
+          this.props.data.title} - Deadline:{" "}
           {day + ". " + this.months[month] + " (" + year + ")"} {completed}{" "}
         </Text>
 
         <Text>
-          {this.props.data.location[0] ? "Distance: " +
+          { // Just in case the location data is undefined
+            this.props.data.location[0] ? "Distance: " +
             (haversine(this.props.currentLocation, this.props.data.location[0]) > 5000? Math.floor(
                   haversine(this.props.currentLocation, this.props.data.location[0]) / 1000) + " km" :
                  haversine(this.props.currentLocation, this.props.data.location[0]).toFixed(0) + " m")
@@ -79,8 +77,7 @@ class ToDo extends React.Component {
           style={{
             flexDirection: "row",
             alignSelf: "flex-end"
-          }}
-        >
+          }}>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate("Edit", {

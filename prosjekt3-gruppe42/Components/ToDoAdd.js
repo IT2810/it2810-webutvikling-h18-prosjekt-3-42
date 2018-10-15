@@ -7,28 +7,29 @@ import { Constants, Location, Permissions, MapView} from 'expo';
 import { Feather } from '@expo/vector-icons';
 
 class ToDoAdd extends React.Component {
-    constructor(){
-        super()
-        this.state = {
-            searchbar: "",
-            searched: false,
-            key: new Date().getTime().toString(),
-            title: "",
-            completed: false,
-            priority:0,
-            date: {year:"", month:"", day:""},
-            description:"",
-            location: {
-                latitude: 0,
-                longitude: 0,
-              },
-              position:
-              [
-                {street: "No position found"}
-              ]
-
-        }
+  constructor(){
+    super()
+    this.state = {
+      searchbar: "",
+      searched: false,
+      key: new Date().getTime().toString(),
+      title: "",
+      completed: false,
+      priority:0,
+      date: {year:"", month:"", day:""},
+      description:"",
+      location: {
+        latitude: 0,
+        longitude: 0,
+      },
+      position:
+      [
+        {street: "no position found"}
+      ],
+      helperText: "You must search for a location before saving (Push the icon)",
     }
+    var helperText = "You must search for a location before saving (Push the icon)"
+  }
 
   static navigationOptions = {
     title: 'Add Todo',
@@ -37,7 +38,6 @@ class ToDoAdd extends React.Component {
   componentDidMount() {
       today = new Date();
       this.setState({date:{year:today.getFullYear(), month:today.getMonth(), day:today.getDate()}})
-
   }
 
   async pickDate() {
@@ -82,19 +82,17 @@ class ToDoAdd extends React.Component {
       });
     }
     let coords = await Location.geocodeAsync(place)
-    /*
-    try {
-      let coords = await Location.geocodeAsync(place)
-      console.log(" try The location entered is undefined")
+
+    if (coords.length != 0) {
+      this.setState({ location: coords })
+      this.setState({searched: true})
     }
-    catch(error) {
-      console.warn("The location entered is undefined")
-      console.log("except The location entered is undefined")
+    else {
+      this.setState({
+        helperText: "Please select at valid location",
+        searched: false,
+      })
     }
-    */
-    //console.log(coords)
-    this.setState({ location: coords })
-    this.setState({searched: true})
   }
 
   render() {
@@ -107,26 +105,27 @@ class ToDoAdd extends React.Component {
           longitudeDelta: 0.0421,
         }}/> : <Text>Please wait for the gps coords to load</Text>
         */
-      const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
+    console.log("Helpertext", this.state.helperText)
+    const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
     return (
       <View style={styles.container}>
         <TextInput
-            label="Name"
-            style={styles.textBox}
-            underlineColor = {underlineColor}
-            onChangeText={(text) => this.setState({title:text})} value={this.state.title} />
+          label="Name"
+          style={styles.textBox}
+          underlineColor = {underlineColor}
+          onChangeText={(text) => this.setState({title:text})} value={this.state.title} />
         <TextInput
-            label="Description"
-            style={styles.textBox}
-            multiline={true}
-            underlineColor = {underlineColor}
-            onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
+          label="Description"
+          style={styles.textBox}
+          multiline={true}
+          underlineColor = {underlineColor}
+          onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
 
         <Searchbar placeholder="Location" style={styles.textBox}
-        onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
-        onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
+          onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
+          onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
 
-        <HelperText type="error" visible={ !this.state.searched } >You must search for a location before saving (Push the icon)</HelperText>
+        <HelperText type="error" visible={ !this.state.searched }>{this.state.helperText}</HelperText>
 
         <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
             <Picker

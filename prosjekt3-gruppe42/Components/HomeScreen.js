@@ -140,10 +140,19 @@ export default class HomeScreen extends React.Component {
   }
 
   sortDistance(x, y) {
-    return (
-      haversine(this.state.currentLocation, x.location[0]) -
-      haversine(this.state.currentLocation, y.location[0])
-    );
+    if (x.location[0] && y.location[0]) {
+      return (
+        haversine(this.state.currentLocation, x.location[0]) -
+        haversine(this.state.currentLocation, y.location[0])
+      );
+    }
+    else if (x.location[0]) {
+      return -1
+    }
+    else if (y.location[0]) {
+      return 1
+    }
+    return 0
   }
 
   render() {
