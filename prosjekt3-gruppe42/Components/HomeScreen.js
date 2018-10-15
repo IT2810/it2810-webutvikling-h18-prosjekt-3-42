@@ -167,45 +167,56 @@ export default class HomeScreen extends React.Component {
             />
           )}
         />
-
-        <Picker
-          selectedValue={this.state.pickerValue}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemPosition) =>
-            this.setState({
-              sortMethod: this.state.sortMethods[itemValue],
-              pickerValue: itemPosition
-            })
-          }
-        >
-          <Picker.Item label="Date" value={0} />
-          <Picker.Item label="Distance" value={1} />
-          <Picker.Item label="Title" value={2} />
-          <Picker.Item label="Key" value={3} />
-          <Picker.Item label="Priority" value={4} />
-        </Picker>
-
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate("Add", {
-              itemId: 86,
-              message: "anything you want here",
-              handleTodoAdd: this.handleTodoAdd.bind(this)
-            })
-          }
-          style={{
-            alignItems: "center",
-            alignSelf: "flex-end",
-            justifyContent: "center",
-            width: 60,
-            height: 60,
-            backgroundColor: addColor,
-            borderRadius: 60,
-            margin: 10
-          }}
-        >
-          <MaterialIcons name="add" size={36} color="white" />
-        </TouchableOpacity>
+        <View style={{flexDirection: "row", justifyContent:"space-between"}}>
+        <View style={{flexDirection: "row"}}>
+          <Text style={{
+              alignSelf:"center",
+              marginLeft: 5,
+            }}>Sort by</Text>
+          <Picker
+            selectedValue={this.state.pickerValue}
+            style={{ 
+              height: 50,
+              width: 140,
+              alignSelf:"center",
+              marginLeft: 5,
+            }}
+            onValueChange={(itemValue, itemPosition) =>
+              this.setState({
+                sortMethod: this.state.sortMethods[itemValue],
+                pickerValue: itemPosition
+              })
+            }
+          >
+            <Picker.Item label="Date" value={0} />
+            <Picker.Item label="Distance" value={1} />
+            <Picker.Item label="Title" value={2} />
+            <Picker.Item label="Key" value={3} />
+            <Picker.Item label="Priority" value={4} />
+          </Picker>
+          </View>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate("Add", {
+                itemId: 86,
+                message: "anything you want here",
+                handleTodoAdd: this.handleTodoAdd.bind(this)
+              })
+            }
+            style={{
+              alignItems: "center",
+              alignSelf: "flex-end",
+              justifyContent: "center",
+              width: 60,
+              height: 60,
+              backgroundColor: addColor,
+              borderRadius: 60,
+              margin: 10
+            }}
+          >
+            <MaterialIcons name="add" size={36} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

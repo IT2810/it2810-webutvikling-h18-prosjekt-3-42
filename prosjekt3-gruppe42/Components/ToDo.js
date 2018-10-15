@@ -67,10 +67,11 @@ class ToDo extends React.Component {
         </Text>
 
         <Text>
-          {"Distance: " +
+          {this.props.data.location[0] ? "Distance: " +
             (haversine(this.props.currentLocation, this.props.data.location[0]) > 5000? Math.floor(
                   haversine(this.props.currentLocation, this.props.data.location[0]) / 1000) + " km" :
                  haversine(this.props.currentLocation, this.props.data.location[0]).toFixed(0) + " m")
+                 : "Undefined location"
           }
         </Text>
         <Text style={styles.description}>{this.props.data.description}</Text>
