@@ -82,13 +82,22 @@ class ToDoAdd extends React.Component {
       });
     }
     let coords = await Location.geocodeAsync(place)
+    /*
+    try {
+      let coords = await Location.geocodeAsync(place)
+      console.log(" try The location entered is undefined")
+    }
+    catch(error) {
+      console.warn("The location entered is undefined")
+      console.log("except The location entered is undefined")
+    }
+    */
     //console.log(coords)
     this.setState({ location: coords })
     this.setState({searched: true})
   }
 
   render() {
-    //console.log(this.state)
     /*let map = this.state.location.longitude !== 0 ? <MapView
         style={{ flex: 1 , width: "80%", height: "80%"}}
         initialRegion={{
@@ -99,8 +108,6 @@ class ToDoAdd extends React.Component {
         }}/> : <Text>Please wait for the gps coords to load</Text>
         */
       const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
-      // console.log(this.props.navigation.getParam('wtf'))
-      //fdfkdfjk
     return (
       <View style={styles.container}>
         <TextInput
