@@ -1,4 +1,5 @@
-import {toRadians, haversine} from './functions.js'
+import {toRadians, haversine, sortKey, sortTitle, sortDate, sortPriority} from './functions.js'
+import {todos} from './mock_todos'
 
 describe("Test helper functions in functions.js", () => {
     test('toRadians should correctly convert degrees', () => {
@@ -21,3 +22,27 @@ describe("Test helper functions in functions.js", () => {
         expect(Math.round(haversine(currentLocation, location))).toBe(823775);
     })
 });
+
+describe("Test sorting functions, in functions.js", () => {
+    const unsortedTodos = [];
+    todos.forEach(x => unsortedTodos.push(x));
+
+    test('sortKey should put earliest key on top', () => {
+        expect(todos.sort(sortKey)[0]).toMatchObject(unsortedTodos[2]);
+        expect(todos.sort(sortKey)[todos.length - 1]).toMatchObject(unsortedTodos[4]);
+    });
+    test('sortTitle should sort todos alphabetically', () => {
+        expect(todos.sort(sortTitle)[0]).toMatchObject(unsortedTodos[4]);
+        expect(todos.sort(sortTitle)[todos.length - 1]).toMatchObject(unsortedTodos[2]);
+    });
+
+    test('sortDate should put earliest date on top', () => {
+        expect(todos.sort(sortDate)[0]).toMatchObject(unsortedTodos[1]);
+        expect(todos.sort(sortDate)[todos.length - 1]).toMatchObject(unsortedTodos[3]);
+    });
+
+    test('sortPriority should put highest date on top', () => {
+        expect(todos.sort(sortPriority)[0]).toMatchObject(unsortedTodos[0]);
+        expect(todos.sort(sortPriority)[todos.length - 1]).toMatchObject(unsortedTodos[2]);
+    });
+})

@@ -22,7 +22,7 @@ export const todos =  [
           "street": "no position found",
         },
       ],
-      "priority": 0,
+      "priority": 2,
       "searchbar": "🦆",
       "searched": false,
       "title": "Sove",
@@ -32,7 +32,7 @@ export const todos =  [
       "date":  {
         "day": 16,
         "month": 9,
-        "year": 2018,
+        "year": 2017,
       },
       "description": "Fiskeburgere",
       "helperText": "You must search for a location before saving (Push the icon)",
