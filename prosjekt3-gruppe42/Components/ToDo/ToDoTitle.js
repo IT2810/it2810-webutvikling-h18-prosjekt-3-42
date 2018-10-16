@@ -18,7 +18,7 @@ import {
   todoDescriptionColor
 } from "../../assets/styles";
 
-export default class ToDo extends React.Component {
+export default class ToDoTitle extends React.Component {
   constructor(props) {
     super(props);
     this.locale = "nb-no";
@@ -51,8 +51,7 @@ export default class ToDo extends React.Component {
             styles.title,
             { borderBottomColor: this.prioColors[this.props.data.priority] }
           ]}>
-          {" " +
-          this.props.data.title} - Deadline:{" "}
+          {this.props.data.title} - Deadline:{" "}
           {day + ". " + this.months[month] + " (" + year + ")"} {completed}{" "}
         </Text>
     );

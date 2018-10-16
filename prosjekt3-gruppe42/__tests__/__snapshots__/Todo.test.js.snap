@@ -1,127 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test snapshot of todos something 1`] = `
-<View
+exports[`Test ToDoTitle component ToDoTitle snapshot test 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
   style={
-    Object {
-      "backgroundColor": "white",
-      "elevation": 2,
-      "flex": 1,
-      "margin": 8,
-      "minHeight": 100,
-      "padding": 10,
-    }
+    Array [
+      Object {
+        "borderBottomWidth": 2,
+        "color": "#424242",
+        "fontSize": 20,
+        "fontWeight": "bold",
+      },
+      Object {
+        "borderBottomColor": "#CC2936",
+      },
+    ]
   }
 >
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Array [
-        Object {
-          "borderBottomWidth": 2,
-          "color": "#424242",
-          "fontSize": 20,
-          "fontWeight": "bold",
-        },
-        Object {
-          "borderBottomColor": "#CC2936",
-        },
-      ]
-    }
-  >
-     Sove
-     - Deadline:
-     
-    16. oktober (2018)
-     
-     
-  </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-  >
-    Distance: 5940 km
-  </Text>
-  <Text
-    accessible={true}
-    allowFontScaling={true}
-    ellipsizeMode="tail"
-    style={
-      Object {
-        "color": "#616161",
-      }
-    }
-  >
-    Drøm
-  </Text>
-  <View
-    style={
-      Object {
-        "alignSelf": "flex-end",
-        "flexDirection": "row",
-      }
-    }
-  >
-    <View
-      accessible={true}
-      isTVSelectable={true}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "alignSelf": "flex-end",
-          "backgroundColor": "#FFA000",
-          "borderRadius": 30,
-          "height": 30,
-          "justifyContent": "center",
-          "opacity": 1,
-          "width": 30,
-        }
-      }
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-      />
-    </View>
-    <View
-      accessible={true}
-      isTVSelectable={true}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "alignSelf": "flex-end",
-          "backgroundColor": "#f44336",
-          "borderRadius": 30,
-          "height": 30,
-          "justifyContent": "center",
-          "marginLeft": 10,
-          "opacity": 1,
-          "width": 30,
-        }
-      }
-    >
-      <Text
-        accessible={true}
-        allowFontScaling={true}
-        ellipsizeMode="tail"
-      />
-    </View>
-  </View>
-</View>
+  Sove
+   - Deadline:
+   
+  16. oktober (2018)
+   
+   
+</Text>
 `;
