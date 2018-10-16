@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Picker} from 'react-native';
-import {TextInput, Button, Switch} from 'react-native-paper';
+import { TextInput, Button, Switch, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
+import { Constants, Location, Permissions, MapView} from 'expo';
 import { saveColor, underlineColor, dateColor } from '../assets/styles'
 
 export default class ToDoEdit extends React.Component {
@@ -36,6 +37,28 @@ export default class ToDoEdit extends React.Component {
     }
   }
 
+  _updateTodoCoordinates = async (place) => {
+    console.log(place)
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+    let coords = await Location.geocodeAsync(place)
+
+    if (coords.length != 0) {
+      this.setState({ location: coords })
+      this.setState({searched: true})
+    }
+    else {
+      this.setState({
+        helperText: "Please select at valid location",
+        searched: false,
+      })
+    }
+  }
+
   render() {
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
     console.log("render", this.state)
@@ -53,6 +76,12 @@ export default class ToDoEdit extends React.Component {
             multiline={true}
             underlineColor = { underlineColor }
             onChangeText={(text) => this.setState({description:text})} value={this.state.description} />
+
+        <Searchbar placeholder="Location" style={styles.textBox}
+          onIconPress={(data) => this._updateTodoCoordinates(this.state.searchbar)}
+          onChangeText={query => this.setState({searchbar: query})} value={this.state.searchbar}/>
+
+        <HelperText type="error" visible={ !this.state.searched }>{this.state.helperText}</HelperText>
             <Picker
                 selectedValue={this.state.priority}
                 style={{ height: 50, width: 200 }}
