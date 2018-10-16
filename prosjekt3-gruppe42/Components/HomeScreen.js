@@ -160,7 +160,6 @@ export default class HomeScreen extends React.Component {
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.
       .sort((x, y) => x.completed ? 1 : y.completed ? -1 : 0)
-    
     return (
       <View style={styles.container}>
         <ProgressBar progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} style={{width: "90%", alignSelf: "center"}} color={headerColor}/>
