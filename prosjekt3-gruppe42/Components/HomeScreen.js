@@ -14,7 +14,7 @@ import ToDo from "./ToDo.js";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { addColor, headerColor } from "../assets/styles";
 import { Location, Permissions, MapView } from "expo";
-import { haversine } from "../functions";
+import { haversine, sortKey, sortTitle, sortPriority, sortDate, sortDistance } from "../functions";
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -33,11 +33,11 @@ export default class HomeScreen extends React.Component {
       sortMethod: this.sortDate,
       pickerValue: 0,
       sortMethods: [
-        this.sortDate.bind(this),
+        sortDate,
         this.sortDistance.bind(this),
-        this.sortTitle.bind(this),
-        this.sortKey.bind(this),
-        this.sortPriority.bind(this)
+        sortTitle,
+        sortKey,
+        sortPriority
       ]
     };
   }
@@ -120,25 +120,6 @@ export default class HomeScreen extends React.Component {
     this.setState(oldState, this._storeData);
   }
 
-  sortKey(x, y) {
-    return parseInt(x.key) - parseInt(y.key);
-  }
-
-  sortTitle(x, y) {
-    return x.title === y.title ? 0 : x.title > y.title ? 1 : -1;
-  }
-
-  sortPriority(x, y) {
-    return y.priority - x.priority;
-  }
-
-  sortDate(x, y) {
-    return (
-      new Date(x.date.year, x.date.month, x.date.day) -
-      new Date(y.date.year, y.date.month, y.date.day)
-    );
-  }
-
   sortDistance(x, y) {
     if (x.location[0] && y.location[0]) {
       return (
@@ -160,7 +141,7 @@ export default class HomeScreen extends React.Component {
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.
       .sort((x, y) => x.completed ? 1 : y.completed ? -1 : 0)
-    
+
     return (
       <View style={styles.container}>
         <ProgressBar progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} style={{width: "90%", alignSelf: "center"}} color={headerColor}/>
@@ -185,7 +166,7 @@ export default class HomeScreen extends React.Component {
             }}>Sort by</Text>
           <Picker
             selectedValue={this.state.pickerValue}
-            style={{ 
+            style={{
               height: 50,
               width: 140,
               alignSelf:"center",
@@ -205,7 +186,7 @@ export default class HomeScreen extends React.Component {
             <Picker.Item label="Priority" value={4} />
           </Picker>
           </View>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.mapButton}
               onPress={() =>
                 this.props.navigation.navigate("Map", {

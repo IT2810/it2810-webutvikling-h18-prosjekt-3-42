@@ -19,3 +19,23 @@ export const haversine = function (currentLocation, location) {
 export const toRadians = function (number) {
   return number * (Math.PI / 180)
 }
+
+
+export function sortKey(x, y) {
+  return parseInt(x.key) - parseInt(y.key);
+}
+
+export function sortTitle(x, y) {
+  return x.title === y.title ? 0 : x.title > y.title ? 1 : -1;
+}
+
+export function sortPriority(x, y) {
+  return y.priority - x.priority;
+}
+
+export function sortDate(x, y) {
+  return (
+    new Date(x.date.year, x.date.month, x.date.day) -
+    new Date(y.date.year, y.date.month, y.date.day)
+  );
+}
