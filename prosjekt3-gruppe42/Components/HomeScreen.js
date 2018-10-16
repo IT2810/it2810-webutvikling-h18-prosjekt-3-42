@@ -10,7 +10,7 @@ import {
   Picker
 } from "react-native";
 import { ProgressBar } from "react-native-paper";
-import ToDo from "./ToDo.js";
+import ToDo from "./ToDo/ToDo.js";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { addColor, headerColor } from "../assets/styles";
 import { Location, Permissions, MapView } from "expo";

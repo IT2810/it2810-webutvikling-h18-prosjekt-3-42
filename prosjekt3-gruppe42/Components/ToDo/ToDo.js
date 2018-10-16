@@ -16,8 +16,9 @@ import {
   todoDeleteColor,
   todoTitleColor,
   todoDescriptionColor
-} from "../assets/styles";
-import { haversine, toRadians } from "../functions";
+} from "../../assets/styles";
+import { haversine, toRadians } from "../../functions";
+import ToDoTitle from './ToDoTitle';
 
 class ToDo extends React.Component {
   constructor(props) {
@@ -53,15 +54,7 @@ class ToDo extends React.Component {
             ? styles.containerCompleted
             : styles.container
         }>
-        <Text
-          style={[
-            styles.title,
-            { borderBottomColor: this.prioColors[this.props.data.priority] }
-          ]}>
-          {" " +
-          this.props.data.title} - Deadline:{" "}
-          {day + ". " + this.months[month] + " (" + year + ")"} {completed}{" "}
-        </Text>
+        <ToDoTitle data={this.props.data} />
 
         <Text>
           { // Just in case the location data is undefined
