@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test ToDoTitle component ToDoTitle snapshot test 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={true}
+  ellipsizeMode="tail"
+  style={
+    Array [
+      Object {
+        "borderBottomWidth": 2,
+        "color": "#424242",
+        "fontSize": 20,
+        "fontWeight": "bold",
+      },
+      Object {
+        "borderBottomColor": "#CC2936",
+      },
+    ]
+  }
+>
+  Sove
+   - Deadline:
+   
+  16. oktober (2018)
+   
+   
+</Text>
+`;

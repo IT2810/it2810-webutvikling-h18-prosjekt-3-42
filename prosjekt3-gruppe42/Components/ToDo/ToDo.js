@@ -16,36 +16,17 @@ import {
   todoDeleteColor,
   todoTitleColor,
   todoDescriptionColor
-} from "../assets/styles";
-import { haversine, toRadians } from "../functions";
+} from "../../assets/styles";
+
+import ToDoTitle from './ToDoTitle';
+import ToDoContent from './ToDoContent';
 
 class ToDo extends React.Component {
   constructor(props) {
     super(props);
-    this.locale = "nb-no";
-    this.months = [
-      "januar",
-      "februar",
-      "mars",
-      "april",
-      "mai",
-      "juni",
-      "juli",
-      "august",
-      "september",
-      "oktober",
-      "november",
-      "desember"
-    ];
-    this.prioColors = ["#8FC93A", "#E4CC37", "#CC2936"];
-  }
+}
 
   render() {
-    var date = this.props.data.date.year != "" ? new Date(this.props.data.date.year, this.props.data.date.month, this.props.data.date.day) : new Date();
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var day = date.getDate();
-    var completed = this.props.data.completed ? (<MaterialIcons name="check" size={20} color={"green"} />) : null
     return (
       <Surface
         style={
@@ -53,26 +34,9 @@ class ToDo extends React.Component {
             ? styles.containerCompleted
             : styles.container
         }>
-        <Text
-          style={[
-            styles.title,
-            { borderBottomColor: this.prioColors[this.props.data.priority] }
-          ]}>
-          {" " +
-          this.props.data.title} - Deadline:{" "}
-          {day + ". " + this.months[month] + " (" + year + ")"} {completed}{" "}
-        </Text>
+        <ToDoTitle data={this.props.data} />
 
-        <Text>
-          { // Just in case the location data is undefined
-            this.props.data.location[0] ? "Distance: " +
-            (haversine(this.props.currentLocation, this.props.data.location[0]) > 5000? Math.floor(
-                  haversine(this.props.currentLocation, this.props.data.location[0]) / 1000) + " km" :
-                 haversine(this.props.currentLocation, this.props.data.location[0]).toFixed(0) + " m")
-                 : "Undefined location"
-          }
-        </Text>
-        <Text style={styles.description}>{this.props.data.description}</Text>
+        <ToDoContent data={this.props.data} currentLocation={this.props.currentLocation}  />
         <View
           style={{
             flexDirection: "row",
@@ -111,7 +75,7 @@ class ToDo extends React.Component {
             <MaterialIcons name="delete" size={18} color="white" />
           </TouchableOpacity>
         </View>
-      </Surface>
+    </Surface>
     );
   }
 }
