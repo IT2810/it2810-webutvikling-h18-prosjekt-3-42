@@ -111,7 +111,7 @@ class ToDo extends React.Component {
             <MaterialIcons name="delete" size={18} color="white" />
           </TouchableOpacity>
         </View>
-      </Surface>
+    </Surface>
     );
   }
 }

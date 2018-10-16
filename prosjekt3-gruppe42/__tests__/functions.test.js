@@ -1,5 +1,5 @@
-import {toRadians, haversine, sortKey, sortTitle, sortDate, sortPriority} from './functions.js'
-import {todos} from './mock_todos'
+import {toRadians, haversine, sortKey, sortTitle, sortDate, sortPriority} from '../functions.js'
+import {todos} from '../__mocks__/mock_todos'
 
 describe("Test helper functions in functions.js", () => {
     test('toRadians should correctly convert degrees', () => {
