@@ -9,12 +9,12 @@ import {
   AsyncStorage,
   Picker
 } from "react-native";
-import { Button } from "react-native-paper";
+import { ProgressBar } from "react-native-paper";
 import ToDo from "./ToDo.js";
-import { MaterialIcons } from "@expo/vector-icons";
-import { addColor } from "../assets/styles";
-import { Constants, Location, Permissions, MapView } from "expo";
-import { haversine, toRadians } from "../functions";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { addColor, headerColor } from "../assets/styles";
+import { Location, Permissions, MapView } from "expo";
+import { haversine } from "../functions";
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -163,6 +163,7 @@ export default class HomeScreen extends React.Component {
     
     return (
       <View style={styles.container}>
+        <ProgressBar progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} style={{width: "90%", alignSelf: "center"}} color={headerColor}/>
         <FlatList
           extraData={this.state}
           data={sortedList}
@@ -204,6 +205,14 @@ export default class HomeScreen extends React.Component {
             <Picker.Item label="Priority" value={4} />
           </Picker>
           </View>
+            <TouchableOpacity 
+              style={styles.mapButton}
+              onPress={() =>
+                this.props.navigation.navigate("Map", {
+                  data: this.state.todos,
+                })}>
+              <Feather name="map" size={30} color="white"/>
+            </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate("Add", {
@@ -212,23 +221,10 @@ export default class HomeScreen extends React.Component {
                 handleTodoAdd: this.handleTodoAdd.bind(this)
               })
             }
-            style={{
-              alignItems: "center",
-              alignSelf: "flex-end",
-              justifyContent: "center",
-              width: 60,
-              height: 60,
-              backgroundColor: addColor,
-              borderRadius: 60,
-              margin: 10
-            }}
+            style={styles.roundButton}
           >
             <MaterialIcons name="add" size={36} color="white" />
           </TouchableOpacity>
-          <Button onPress={() =>
-            this.props.navigation.navigate("Map", {
-              data: this.state.todos,
-            })}>Text</Button>
         </View>
       </View>
     );
@@ -246,5 +242,25 @@ const styles = StyleSheet.create({
     margin: 10,
     width: "50%",
     alignSelf: "center"
+  },
+  roundButton: {
+    alignItems: "center",
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    width: 60,
+    height: 60,
+    backgroundColor: addColor,
+    borderRadius: 60,
+    margin: 10
+  },
+  mapButton: {
+    alignItems: "center",
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    width: 60,
+    height: 60,
+    backgroundColor: headerColor,
+    borderRadius: 60,
+    margin: 10
   }
 });
