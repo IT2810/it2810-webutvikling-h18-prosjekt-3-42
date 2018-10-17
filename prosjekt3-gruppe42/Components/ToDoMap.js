@@ -37,14 +37,16 @@ class ToDoMap extends React.Component {
   };
 
   render() {
+    // For making markers on the map
     const {Marker} = MapView
     let  markers = this.props.navigation.getParam("data", [])
+      // Only adds the not completed todos to the map
       .filter(x => !x.completed)
       .map(x => <Marker coordinate={x.location[0]} title={x.title} key={x.key} description={x.description} />)
 
-    
-    console.log("Data:", this.props.navigation.getParam("data", "no_data"))
-
+    // The map itself. It only renders if we have a valid current location, otherwise it displays some text
+    // This causes some problems on some android phones as getting the current location doesn't work on them.
+    // Weird stuff, but they seem to be working on it right now, so we can't do much else
     let map = this.state.location.longitude !== 0 ? <MapView
       style={{ flex: 1 , width: "100%", height: "100%"}}
       initialRegion={{
@@ -55,6 +57,7 @@ class ToDoMap extends React.Component {
       }}>
       {markers}
       </MapView> : <Text>Please wait for the gps coords to load</Text>
+
     return (
       <View style={styles.container}>
       {map}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Picker} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, Picker} from 'react-native';
 import { TextInput, Button, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { saveColor, underlineColor, dateColor } from '../assets/styles'
-import { Constants, Location, Permissions, MapView} from 'expo';
+import { Location, Permissions } from 'expo';
 import { Feather } from '@expo/vector-icons';
 
 class ToDoAdd extends React.Component {
@@ -68,13 +68,9 @@ class ToDoAdd extends React.Component {
     let position = await Location.reverseGeocodeAsync(location)
     this.setState({ location: location.coords }, console.log(position));
     this.setState({ position: position })
-    //let coords = await Location.geocodeAsync("Storgata 1, Oslo")
-    //console.log("Coords:", coords)
-    console.log(await Location.geocodeAsync("Storgata 1, Oslo"))
   };
 
   _updateTodoCoordinates = async (place) => {
-    console.log(place)
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
@@ -96,16 +92,6 @@ class ToDoAdd extends React.Component {
   }
 
   render() {
-    /*let map = this.state.location.longitude !== 0 ? <MapView
-        style={{ flex: 1 , width: "80%", height: "80%"}}
-        initialRegion={{
-          latitude: this.state.location.latitude,
-          longitude: this.state.location.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}/> : <Text>Please wait for the gps coords to load</Text>
-        */
-    console.log("Helpertext", this.state.helperText)
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
     return (
       <View style={styles.container}>
@@ -150,7 +136,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    // justifyContent: 'center',
   },
   button: {
       margin:10,

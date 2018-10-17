@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  DatePickerAndroid,
   AsyncStorage,
   Picker
 } from "react-native";
@@ -13,15 +12,17 @@ import { ProgressBar } from "react-native-paper";
 import ToDo from "./ToDo/ToDo.js";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { addColor, headerColor } from "../assets/styles";
-import { Location, Permissions, MapView } from "expo";
-import { haversine, sortKey, sortTitle, sortPriority, sortDate, sortDistance } from "../functions";
+import { Location, Permissions } from "expo";
+import { haversine, sortKey, sortTitle, sortPriority, sortDate } from "../functions";
 
 export default class HomeScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      // This one isn't either
       YearMonthDay: "Loading",
       todos: [],
+      // Don't think this is needed at all
       location: {
         latitude: 0,
         longitude: 0
@@ -81,10 +82,7 @@ export default class HomeScreen extends React.Component {
     }
     let location = await Location.getCurrentPositionAsync();
     // This might go boom
-    this.setState(
-      { currentLocation: location.coords },
-      console.log("Currentlocation coords:", location.coords)
-    );
+    this.setState({ currentLocation: location.coords });
   };
 
   handleTodoAdd(data) {
@@ -121,6 +119,8 @@ export default class HomeScreen extends React.Component {
   }
 
   sortDistance(x, y) {
+    // We used to accept undefined locations so we needed these checks to allow for them to be sorted
+    // This is not needed anymore, but just in case we wont delete them.
     if (x.location[0] && y.location[0]) {
       return (
         haversine(this.state.currentLocation, x.location[0]) -
@@ -137,6 +137,7 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     const sortedList = this.state.todos
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.
@@ -144,7 +145,10 @@ export default class HomeScreen extends React.Component {
     
     return (
       <View style={styles.container}>
-        <ProgressBar progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} style={{width: "90%", alignSelf: "center"}} color={headerColor}/>
+        <ProgressBar 
+          progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} 
+          style={{width: "90%", alignSelf: "center"}} color={headerColor}
+        />
         <FlatList
           extraData={this.state}
           data={sortedList}
@@ -195,6 +199,7 @@ export default class HomeScreen extends React.Component {
               <Feather name="map" size={30} color="white"/>
             </TouchableOpacity>
           <TouchableOpacity
+            style={styles.roundButton}
             onPress={() =>
               this.props.navigation.navigate("Add", {
                 itemId: 86,
@@ -202,7 +207,6 @@ export default class HomeScreen extends React.Component {
                 handleTodoAdd: this.handleTodoAdd.bind(this)
               })
             }
-            style={styles.roundButton}
           >
             <MaterialIcons name="add" size={36} color="white" />
           </TouchableOpacity>
