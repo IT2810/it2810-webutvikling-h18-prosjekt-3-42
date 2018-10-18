@@ -33,9 +33,11 @@ The distance-field in the todo shows how far your current location is from the t
 <img src="https://i.imgur.com/bMfLB6U.jpg" width="200px" />
 
 The map-button at the bottom of the screen, allows you to see your todos on a map.
+
 <img src="https://i.imgur.com/iakfp53.jpg" width="200px" />
 ## Technology
 ### React Native
+React Native was used to develop our app. This allowed for easy cross-platform development, using JavaScript and syntax that is very close to what you would use in web-development. JavaScript is a language all the group members were competent in from before, so the time spent on learning was minimized and development and planning could begin at the start of the assignment. Due to the short timeframe of this assignment, the use of react-native was very helpful in allowing us to get a working app up and running in the time frame that was expected of us, and the lessons learned from the previous assignment, could be applied to this assigment as well.
 ### Expo
 [Expo](https://expo.io/)  is a toolchain that allows for easy development of cross-platform react-native apps. It also contains many useful components and APIs that allows use of native platform functionality. A number of these were used in this project, specifically the location API, the maps API and the permissions API. This will be further explained in the location part of the [Tutorials-section](#location)
 
@@ -58,7 +60,7 @@ As mentioned above, and in closer detail in the tutorials section below, a coupl
 
 To be allowed access to the users location, the permissions API in expo was used to get the location permission.
 
-To display the todos on a map, the map API in Expo was used. This API will use either Google Maps or Apple Maps depending on the platform used. 
+To display the todos on a map, the map API in Expo was used. This API will use either Google Maps or Apple Maps depending on the platform used.
 
 ## Tutorials
 ### react-navigation
