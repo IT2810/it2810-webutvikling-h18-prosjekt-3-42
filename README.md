@@ -71,7 +71,7 @@ Map tutorial
 
 The map itself comes from expo. To use it you need to import it from expo and probide the required props latitude, longitude, latitudeDelta and longitudeDelta.
 
-```
+```javascript
 import { MapView } from "expo";
 
 export default class MapTest() {
@@ -95,7 +95,7 @@ This will put the map in Trondheim at Gløshaugen.
 To add marker to the map we need to use the MapView as a marker and provide it with coordinates, a title, a key and a description.
 
 
-```
+```javascript
 import { MapView } from "expo";
 
 const Marker = MapView
@@ -118,7 +118,7 @@ export default class MapTest() {
 ```
 
 If you want multiple markers you need to save multiple
-```
+```javascript
 import { MapView } from "expo";
 
 const Marker = MapView
