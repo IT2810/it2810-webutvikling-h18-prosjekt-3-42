@@ -14,8 +14,8 @@ export default class App extends React.Component {
 
 const RootStack = createStackNavigator(
   {
-    Home: HomeScreen,
     Edit: ToDoEdit,
+    Home: HomeScreen,
     Add: ToDoAdd,
     Map: ToDoMap
   },

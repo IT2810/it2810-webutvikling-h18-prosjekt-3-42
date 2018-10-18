@@ -38,13 +38,17 @@ class ToDoMap extends React.Component {
 
   render() {
     // For making markers on the map
+    const colors = ["green", "orange", "red"]
     const { Marker } = MapView;
+    this.props.navigation.getParam("data").forEach(x => console.log(x.priority, colors[x.priority]))
+    console.log(Marker)
     let markers = this.props.navigation
       .getParam("data", [])
       // Only adds the not completed todos to the map
       .filter(x => !x.completed)
       .map(x => (
         <Marker
+          pinColor={colors[x.priority]}
           coordinate={x.location[0]}
           title={x.title}
           key={x.key}
