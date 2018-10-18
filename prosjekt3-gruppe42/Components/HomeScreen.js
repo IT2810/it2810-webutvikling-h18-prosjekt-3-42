@@ -13,7 +13,13 @@ import ToDo from "./ToDo/ToDo.js";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { addColor, headerColor } from "../assets/styles";
 import { Location, Permissions } from "expo";
-import { haversine, sortKey, sortTitle, sortPriority, sortDate } from "../functions";
+import {
+  haversine,
+  sortKey,
+  sortTitle,
+  sortPriority,
+  sortDate
+} from "../functions";
 
 export default class HomeScreen extends React.Component {
   constructor() {
@@ -126,28 +132,30 @@ export default class HomeScreen extends React.Component {
         haversine(this.state.currentLocation, x.location[0]) -
         haversine(this.state.currentLocation, y.location[0])
       );
+    } else if (x.location[0]) {
+      return -1;
+    } else if (y.location[0]) {
+      return 1;
     }
-    else if (x.location[0]) {
-      return -1
-    }
-    else if (y.location[0]) {
-      return 1
-    }
-    return 0
+    return 0;
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     const sortedList = this.state.todos
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.
-      .sort((x, y) => x.completed ? 1 : y.completed ? -1 : 0)
-    
+      .sort((x, y) => (x.completed ? 1 : y.completed ? -1 : 0));
+
     return (
       <View style={styles.container}>
-        <ProgressBar 
-          progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} 
-          style={{width: "90%", alignSelf: "center"}} color={headerColor}
+        <ProgressBar
+          progress={
+            this.state.todos.filter(x => x.completed).length /
+            this.state.todos.length
+          }
+          style={{ width: "90%", alignSelf: "center" }}
+          color={headerColor}
         />
         <FlatList
           extraData={this.state}
@@ -162,42 +170,48 @@ export default class HomeScreen extends React.Component {
             />
           )}
         />
-        <View style={{flexDirection: "row", justifyContent:"space-between"}}>
-        <View style={{flexDirection: "row"}}>
-          <Text style={{
-              alignSelf:"center",
-              marginLeft: 5,
-            }}>Sort by</Text>
-          <Picker
-            selectedValue={this.state.pickerValue}
-            style={{
-              height: 50,
-              width: 140,
-              alignSelf:"center",
-              marginLeft: 5,
-            }}
-            onValueChange={(itemValue, itemPosition) =>
-              this.setState({
-                sortMethod: this.state.sortMethods[itemValue],
-                pickerValue: itemPosition
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                alignSelf: "center",
+                marginLeft: 5
+              }}
+            >
+              Sort by
+            </Text>
+            <Picker
+              selectedValue={this.state.pickerValue}
+              style={{
+                height: 50,
+                width: 140,
+                alignSelf: "center",
+                marginLeft: 5
+              }}
+              onValueChange={(itemValue, itemPosition) =>
+                this.setState({
+                  sortMethod: this.state.sortMethods[itemValue],
+                  pickerValue: itemPosition
+                })
+              }
+            >
+              <Picker.Item label="Date" value={0} />
+              <Picker.Item label="Distance" value={1} />
+              <Picker.Item label="Title" value={2} />
+              <Picker.Item label="Key" value={3} />
+              <Picker.Item label="Priority" value={4} />
+            </Picker>
+          </View>
+          <TouchableOpacity
+            style={styles.mapButton}
+            onPress={() =>
+              this.props.navigation.navigate("Map", {
+                data: this.state.todos
               })
             }
           >
-            <Picker.Item label="Date" value={0} />
-            <Picker.Item label="Distance" value={1} />
-            <Picker.Item label="Title" value={2} />
-            <Picker.Item label="Key" value={3} />
-            <Picker.Item label="Priority" value={4} />
-          </Picker>
-          </View>
-            <TouchableOpacity
-              style={styles.mapButton}
-              onPress={() =>
-                this.props.navigation.navigate("Map", {
-                  data: this.state.todos,
-                })}>
-              <Feather name="map" size={30} color="white"/>
-            </TouchableOpacity>
+            <Feather name="map" size={30} color="white" />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.roundButton}
             onPress={() =>
