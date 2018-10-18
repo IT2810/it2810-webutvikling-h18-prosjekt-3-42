@@ -151,7 +151,7 @@ export default class HomeScreen extends React.Component {
         <Text>
 	  Sample text
 	</Text>
-	<Button onPress={() => this.props.navigation.navigate("SecondScreen"})>
+	<Button onPress={() => this.props.navigation.navigate("SecondScreen")})>
 	  ButtonText
 	</Button>
       </View>
