@@ -73,7 +73,7 @@ The map itself comes from expo. To use it you need to import it from expo and pr
 
 ```
 import { MapView } from "expo";
-    
+
 export default class MapTest() {
 	render() {
     return
@@ -90,7 +90,7 @@ export default class MapTest() {
 }
 ```
 
-This will put the map in Trondheim at Gløshaugen. 
+This will put the map in Trondheim at Gløshaugen.
 
 To add marker to the map we need to use the MapView as a marker and provide it with coordinates, a title, a key and a description.
 
@@ -99,7 +99,7 @@ To add marker to the map we need to use the MapView as a marker and provide it w
 import { MapView } from "expo";
 
 const Marker = MapView
-	
+
 let marker = <Marker coordinate={{latitude: 63.40, longitude:10.35}} title={"Title"} description={"Description"} />
 
 export default class MapTest() {
@@ -117,12 +117,12 @@ export default class MapTest() {
 }
 ```
 
-If you want multiple markers you need to save multiple 
+If you want multiple markers you need to save multiple
 ```
 import { MapView } from "expo";
 
 const Marker = MapView
-	
+
 let markerData = [{coordinate:{latitude: 63.4, longitude: 10.35}, key:new Date().getTime().toString(), title:"Title1", description:"Description1"},
   {coordinate:{latitude: 63.37, longitude: 10.37}, key:((new Date().getTime() + 1).toString()), title:"Title2", description:"Description2"},
   {coordinate:{latitude: 63.42, longitude: 10.37}, key:((new Date().getTime() + 2).toString()), title:"Title3", description:"Description3"}
@@ -157,5 +157,32 @@ export default class MapTest() {
 
 ## Testing
 ### Jest
+Jest was used to unit test important functionality in our code. Elements in the app that change appearance or content based on props (specifically components relating to the todos) were tested with snapshots, and functions such as mathematical functions (haversine and toRadians) as well as our sorting functions were tested to check that they produced the desired output.
+
+```
+PASS  __tests__/functions.test.js
+ Test helper functions in functions.js
+   √ toRadians should correctly convert degrees (6ms)
+   √ Haversine should correctly find distance between two sets of coordinates (1ms)
+ Test sorting functions, in functions.js
+   √ sortKey should put earliest key on top (2ms)
+   √ sortTitle should sort todos alphabetically
+   √ sortDate should put earliest date on top (2ms)
+   √ sortPriority should put highest date on top
+
+PASS  __tests__/Todo.test.js
+ Test ToDoTitle component
+   √ ToDoTitle snapshot test (6ms)
+   √ Todo title should be in ToDoTitle
+   √ Todo date should match date in ToDoTitle (1ms)
+   √ Todo completed status should match in ToDoTitle (1ms)
+ Test ToDoContent component
+   √ Todo description should match description in ToDoContent
+   √ ToDoContent distance should match distance between currentLocation and todo-location
+```
 ### Android
+The app has been tested on a Samsung Galaxy S8 and a Huawei Honor 8, and all functionality is working as expected.
 ### iOS
+Due to no members of the group having access to an iOS device, or a device that can run an iPhone emulator, we have not been able to test the app on iOS. But, most or all of the functionality should work as expected on iOS-devices as well.
+
+The only component we are using that is Android-specific is the DatePickerAndroid from react-native. Therefore we also implemented code for DatePickerIOS, but have not been able to test if this is working as expected.
