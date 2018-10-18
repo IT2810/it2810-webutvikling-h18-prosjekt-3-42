@@ -67,6 +67,93 @@ To display the todos on a map, the map API in Expo was used. This API will use e
 ## Tutorials
 ### react-navigation
 ### Location
+Map tutorial
+
+The map itself comes from expo. To use it you need to import it from expo and probide the required props latitude, longitude, latitudeDelta and longitudeDelta.
+
+```
+import { MapView } from "expo";
+    
+export default class MapTest() {
+	render() {
+    return
+      <MapView
+        initialRegion={{
+          latitude: 63.42,
+          longitude: 10.4,
+          latitudeDelta: 0.09,
+          longitudeDelta: 0.04,
+          }}
+        >
+      </MapView>
+    }
+}
+```
+
+This will put the map in Trondheim at Gløshaugen. 
+
+To add marker to the map we need to use the MapView as a marker and provide it with coordinates, a title, a key and a description.
+
+
+```
+import { MapView } from "expo";
+
+const Marker = MapView
+	
+let marker = <Marker coordinate={{latitude: 63.40, longitude:10.35}} title={"Title"} description={"Description"} />
+
+export default class MapTest() {
+ render() {
+  return <MapView
+   initialRegion={{
+    latitude: 63.42,
+    longitude: 10.4,
+    latitudeDelta: 0.09,
+    longitudeDelta: 0.04,
+   }}
+   >
+  </MapView>
+  }
+}
+```
+
+If you want multiple markers you need to save multiple 
+```
+import { MapView } from "expo";
+
+const Marker = MapView
+	
+let markerData = [{coordinate:{latitude: 63.4, longitude: 10.35}, key:new Date().getTime().toString(), title:"Title1", description:"Description1"},
+  {coordinate:{latitude: 63.37, longitude: 10.37}, key:((new Date().getTime() + 1).toString()), title:"Title2", description:"Description2"},
+  {coordinate:{latitude: 63.42, longitude: 10.37}, key:((new Date().getTime() + 2).toString()), title:"Title3", description:"Description3"}
+]
+
+
+export default class MapTest() {
+	render() {
+    let markers = markerData
+    .map(x => (
+      <Marker
+        coordinate={x.coordinate}
+        title={x.title}
+        key={x.key}
+        description={x.description}
+      />
+      ))
+      return
+        <MapView
+          initialRegion={{
+            latitude: 63.42,
+            longitude: 10.4,
+            latitudeDelta: 0.09,
+            longitudeDelta: 0.04,
+          }}
+        >
+          {markers}
+        </MapView>
+      }
+}
+```
 
 ## Testing
 ### Jest
