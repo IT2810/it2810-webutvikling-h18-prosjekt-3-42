@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  DatePickerAndroid,
   AsyncStorage,
   Picker
 } from "react-native";
@@ -13,15 +12,23 @@ import { ProgressBar } from "react-native-paper";
 import ToDo from "./ToDo/ToDo.js";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { addColor, headerColor } from "../assets/styles";
-import { Location, Permissions, MapView } from "expo";
-import { haversine, sortKey, sortTitle, sortPriority, sortDate, sortDistance } from "../functions";
+import { Location, Permissions } from "expo";
+import {
+  haversine,
+  sortKey,
+  sortTitle,
+  sortPriority,
+  sortDate
+} from "../functions";
 
 export default class HomeScreen extends React.Component {
   constructor() {
     super();
     this.state = {
+      // This one isn't either
       YearMonthDay: "Loading",
       todos: [],
+      // Don't think this is needed at all
       location: {
         latitude: 0,
         longitude: 0
@@ -81,10 +88,7 @@ export default class HomeScreen extends React.Component {
     }
     let location = await Location.getCurrentPositionAsync();
     // This might go boom
-    this.setState(
-      { currentLocation: location.coords },
-      console.log("Currentlocation coords:", location.coords)
-    );
+    this.setState({ currentLocation: location.coords });
   };
 
   handleTodoAdd(data) {
@@ -121,30 +125,38 @@ export default class HomeScreen extends React.Component {
   }
 
   sortDistance(x, y) {
+    // We used to accept undefined locations so we needed these checks to allow for them to be sorted
+    // This is not needed anymore, but just in case we wont delete them.
     if (x.location[0] && y.location[0]) {
       return (
         haversine(this.state.currentLocation, x.location[0]) -
         haversine(this.state.currentLocation, y.location[0])
       );
+    } else if (x.location[0]) {
+      return -1;
+    } else if (y.location[0]) {
+      return 1;
     }
-    else if (x.location[0]) {
-      return -1
-    }
-    else if (y.location[0]) {
-      return 1
-    }
-    return 0
+    return 0;
   }
 
   render() {
+    console.log(this.state);
     const sortedList = this.state.todos
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.
-      .sort((x, y) => x.completed ? 1 : y.completed ? -1 : 0)
-    
+      .sort((x, y) => (x.completed ? 1 : y.completed ? -1 : 0));
+
     return (
       <View style={styles.container}>
-        <ProgressBar progress={this.state.todos.filter(x => x.completed).length / this.state.todos.length} style={{width: "90%", alignSelf: "center"}} color={headerColor}/>
+        <ProgressBar
+          progress={
+            this.state.todos.filter(x => x.completed).length /
+            this.state.todos.length
+          }
+          style={{ width: "90%", alignSelf: "center" }}
+          color={headerColor}
+        />
         <FlatList
           extraData={this.state}
           data={sortedList}
@@ -158,43 +170,50 @@ export default class HomeScreen extends React.Component {
             />
           )}
         />
-        <View style={{flexDirection: "row", justifyContent:"space-between"}}>
-        <View style={{flexDirection: "row"}}>
-          <Text style={{
-              alignSelf:"center",
-              marginLeft: 5,
-            }}>Sort by</Text>
-          <Picker
-            selectedValue={this.state.pickerValue}
-            style={{
-              height: 50,
-              width: 140,
-              alignSelf:"center",
-              marginLeft: 5,
-            }}
-            onValueChange={(itemValue, itemPosition) =>
-              this.setState({
-                sortMethod: this.state.sortMethods[itemValue],
-                pickerValue: itemPosition
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                alignSelf: "center",
+                marginLeft: 5
+              }}
+            >
+              Sort by
+            </Text>
+            <Picker
+              selectedValue={this.state.pickerValue}
+              style={{
+                height: 50,
+                width: 140,
+                alignSelf: "center",
+                marginLeft: 5
+              }}
+              onValueChange={(itemValue, itemPosition) =>
+                this.setState({
+                  sortMethod: this.state.sortMethods[itemValue],
+                  pickerValue: itemPosition
+                })
+              }
+            >
+              <Picker.Item label="Date" value={0} />
+              <Picker.Item label="Distance" value={1} />
+              <Picker.Item label="Title" value={2} />
+              <Picker.Item label="Key" value={3} />
+              <Picker.Item label="Priority" value={4} />
+            </Picker>
+          </View>
+          <TouchableOpacity
+            style={styles.mapButton}
+            onPress={() =>
+              this.props.navigation.navigate("Map", {
+                data: this.state.todos
               })
             }
           >
-            <Picker.Item label="Date" value={0} />
-            <Picker.Item label="Distance" value={1} />
-            <Picker.Item label="Title" value={2} />
-            <Picker.Item label="Key" value={3} />
-            <Picker.Item label="Priority" value={4} />
-          </Picker>
-          </View>
-            <TouchableOpacity
-              style={styles.mapButton}
-              onPress={() =>
-                this.props.navigation.navigate("Map", {
-                  data: this.state.todos,
-                })}>
-              <Feather name="map" size={30} color="white"/>
-            </TouchableOpacity>
+            <Feather name="map" size={30} color="white" />
+          </TouchableOpacity>
           <TouchableOpacity
+            style={styles.roundButton}
             onPress={() =>
               this.props.navigation.navigate("Add", {
                 itemId: 86,
@@ -202,7 +221,6 @@ export default class HomeScreen extends React.Component {
                 handleTodoAdd: this.handleTodoAdd.bind(this)
               })
             }
-            style={styles.roundButton}
           >
             <MaterialIcons name="add" size={36} color="white" />
           </TouchableOpacity>

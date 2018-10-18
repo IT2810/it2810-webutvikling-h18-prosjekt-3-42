@@ -18,13 +18,13 @@ import {
   todoDescriptionColor
 } from "../../assets/styles";
 
-import ToDoTitle from './ToDoTitle';
-import ToDoContent from './ToDoContent';
+import ToDoTitle from "./ToDoTitle";
+import ToDoContent from "./ToDoContent";
 
 class ToDo extends React.Component {
   constructor(props) {
     super(props);
-}
+  }
 
   render() {
     return (
@@ -33,15 +33,20 @@ class ToDo extends React.Component {
           this.props.data.completed
             ? styles.containerCompleted
             : styles.container
-        }>
+        }
+      >
         <ToDoTitle data={this.props.data} />
 
-        <ToDoContent data={this.props.data} currentLocation={this.props.currentLocation}  />
+        <ToDoContent
+          data={this.props.data}
+          currentLocation={this.props.currentLocation}
+        />
         <View
           style={{
             flexDirection: "row",
             alignSelf: "flex-end"
-          }}>
+          }}
+        >
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate("Edit", {
@@ -57,7 +62,8 @@ class ToDo extends React.Component {
               height: 30,
               backgroundColor: todoEditColor,
               borderRadius: 30
-            }}>
+            }}
+          >
             <MaterialIcons name="edit" size={18} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -71,11 +77,12 @@ class ToDo extends React.Component {
               backgroundColor: todoDeleteColor,
               borderRadius: 30,
               marginLeft: 10
-            }}>
+            }}
+          >
             <MaterialIcons name="delete" size={18} color="white" />
           </TouchableOpacity>
         </View>
-    </Surface>
+      </Surface>
     );
   }
 }

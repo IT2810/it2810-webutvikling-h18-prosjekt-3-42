@@ -43,18 +43,29 @@ export default class ToDoContent extends React.Component {
 
   render() {
     return (
-        <View>
+      <View>
         <Text>
-          { // Just in case the location data is undefined
-            this.props.data.location[0] ? "Distance: " +
-            (haversine(this.props.currentLocation, this.props.data.location[0]) > 5000? Math.round(
-                  haversine(this.props.currentLocation, this.props.data.location[0]) / 1000) + " km" :
-                 haversine(this.props.currentLocation, this.props.data.location[0]).toFixed(0) + " m")
-                 : "Undefined location"
-          }
+          {// Just in case the location data is undefined
+          this.props.data.location[0]
+            ? "Distance: " +
+              (haversine(
+                this.props.currentLocation,
+                this.props.data.location[0]
+              ) > 5000
+                ? Math.round(
+                    haversine(
+                      this.props.currentLocation,
+                      this.props.data.location[0]
+                    ) / 1000
+                  ) + " km"
+                : haversine(
+                    this.props.currentLocation,
+                    this.props.data.location[0]
+                  ).toFixed(0) + " m")
+            : "Undefined location"}
         </Text>
         <Text style={styles.description}>{this.props.data.description}</Text>
-    </View>
+      </View>
     );
   }
 }
