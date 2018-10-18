@@ -35,6 +35,8 @@ The distance-field in the todo shows how far your current location is from the t
 The map-button at the bottom of the screen, allows you to see your todos on a map.
 
 <img src="https://i.imgur.com/iakfp53.jpg" width="200px" />
+
+
 ## Technology
 ### React Native
 React Native was used to develop our app. This allowed for easy cross-platform development, using JavaScript and syntax that is very close to what you would use in web-development. JavaScript is a language all the group members were competent in from before, so the time spent on learning was minimized and development and planning could begin at the start of the assignment. Due to the short timeframe of this assignment, the use of react-native was very helpful in allowing us to get a working app up and running in the time frame that was expected of us, and the lessons learned from the previous assignment, could be applied to this assigment as well.
