@@ -66,6 +66,119 @@ To display the todos on a map, the map API in Expo was used. This API will use e
 
 ## Tutorials
 ### react-navigation
+Navigation 
+
+First of all you need to install react-navigation.
+```javascript
+npm install --save react-navigation
+```
+
+To use the navigator we need to define an initialRouteName and its route. In this example we have Home as the only route and the initialRouteName. This means that HomeScreen is our homescreen, but we can't navigate to any other parts of the application yet as they don't exist.
+
+```javascript
+import React from 'react';
+import HomeScreen from 'HomeScreen'
+import { createStackNavigator } form 'react-navigation';
+
+export default class App extends React.Component {
+  render() {
+    return <RootStack />
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+  },
+  {
+    initialRouteName: "Home",
+  }
+)
+
+```
+```javascript
+import React from 'react';
+import SecondScreen from 'SecondSCreen'
+import { View, Text } from 'react-native';
+
+export default class HomeScreen extends React.Component {
+  render() {
+    return() {
+      <View>
+        <Text>
+          Sample text
+        </Text>
+      </View>
+    }
+  }
+}
+```
+
+If we want to navigate to another part of the application we need to use call the navigator and where we want to navigate to. Note that if we navigate to a place which is not possible or not defined nothing happens. In our HomeScreen component we have added a button which navigates us to SecondScreen. This SecondScreen is also defined in the RootStack such that we can navigate to it. In SecondScreen we have a button which allows us to go back to the previous screen. In this case that will be HomeScreen, but it can be more powerful than that if used more creatively. 
+
+```javascript
+import React from 'react';
+import HomeScreen from 'HomeScreen'
+import SecondScreen from 'SecondSCreen'
+import { createStackNavigator } form 'react-navigation';
+
+export default class App extends React.Component {
+  render() {
+    return <RootStack />
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    SecondScreen: SecondScreen
+  },
+  {
+     initialRouteName: "Home",
+  }
+)
+
+```
+```javascript
+import React from 'react';
+import SecondScreen from 'SecondSCreen'
+import { View, Text, Button } from 'react-native';
+
+export default class HomeScreen extends React.Component {
+  render() {
+    return() {
+      <View>
+        <Text>
+	  Sample text
+	</Text>
+	<Button onPress={() => this.props.navigation.navigate("SecondScreen"})>
+	  ButtonText
+	</Button>
+      </View>
+    }
+  }
+}
+```
+```javascript
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default class SecondScreen extends React.Component {
+  render() {
+    return() {
+      <View>
+        <Text>
+	  Other text
+        </Text>
+	<Button onPress={() => this.props.navigation.goBack}>
+	  Go back to HomeScreen
+	</Button>
+      </View>
+    }
+  }
+}
+```
+
 ### Location
 Map tutorial
 
@@ -75,18 +188,18 @@ The map itself comes from expo. To use it you need to import it from expo and pr
 import { MapView } from "expo";
 
 export default class MapTest() {
-	render() {
+  render() {
     return
       <MapView
         initialRegion={{
-          latitude: 63.42,
-          longitude: 10.4,
-          latitudeDelta: 0.09,
-          longitudeDelta: 0.04,
-          }}
-        >
+	  latitude: 63.42,
+	  longitude: 10.4,
+	  latitudeDelta: 0.09,
+	  longitudeDelta: 0.04,
+	}}
+      >
       </MapView>
-    }
+      }
 }
 ```
 
