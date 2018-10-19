@@ -77,7 +77,7 @@ class ToDoAdd extends React.Component {
     }
     let location = await Location.getCurrentPositionAsync({});
     let position = await Location.reverseGeocodeAsync(location)
-    this.setState({ location: location.coords }, console.log(position));
+    this.setState({ location: location.coords });
     this.setState({ position: position })
   };
 

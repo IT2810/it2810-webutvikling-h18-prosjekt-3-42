@@ -141,7 +141,6 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     const sortedList = this.state.todos
       .sort(this.state.sortMethod)
       // Adds the completed todos before the non-completed ones.

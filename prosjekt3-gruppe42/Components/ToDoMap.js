@@ -29,7 +29,6 @@ class ToDoMap extends React.Component {
       this.setState({
         errorMessage: "Permission to access location was denied"
       });
-      console.log(this.state.errorMessage);
     }
 
     let location = await Location.getCurrentPositionAsync({});
@@ -40,8 +39,6 @@ class ToDoMap extends React.Component {
     // For making markers on the map
     const colors = ["green", "orange", "red"]
     const { Marker } = MapView;
-    this.props.navigation.getParam("data").forEach(x => console.log(x.priority, colors[x.priority]))
-    console.log(Marker)
     let markers = this.props.navigation
       .getParam("data", [])
       // Only adds the not completed todos to the map
