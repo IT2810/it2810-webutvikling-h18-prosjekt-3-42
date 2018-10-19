@@ -37,7 +37,7 @@ class ToDoMap extends React.Component {
 
   render() {
     // For making markers on the map
-    const colors = ["green", "orange", "red"]
+    const colors = ["green", "orange", "red"];
     const { Marker } = MapView;
     let markers = this.props.navigation
       .getParam("data", [])
