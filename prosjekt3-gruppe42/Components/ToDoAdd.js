@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, Picker} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, DatePickerIOS, Picker, Platform} from 'react-native';
 import { TextInput, Button, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { saveColor, underlineColor, dateColor } from '../assets/styles'
@@ -57,6 +57,17 @@ class ToDoAdd extends React.Component {
     }
   }
 
+  setIosDate(date){
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate();
+      this.setState({date: {year: year, month: month, day: day}})
+  }
+
+  getIosDate(){
+      return new Date(this.state.date.year, this.state.date.month, this.state.date.day);
+  }
+
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -93,6 +104,7 @@ class ToDoAdd extends React.Component {
 
   render() {
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
+    const picker = Platform.OS === 'android' ? <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button> :  <DatePickerIOS date={this.getIosDate} onDateChange={this.setIosDate} />;
     return (
       <View style={styles.container}>
         <TextInput
@@ -113,7 +125,8 @@ class ToDoAdd extends React.Component {
 
         <HelperText type="error" visible={ !this.state.searched }>{this.state.helperText}</HelperText>
 
-        <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
+        {/* <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button> */}
+        {picker}
             <Picker
                 selectedValue={this.state.priority}
                 style={{ height: 50, width: 200 }}

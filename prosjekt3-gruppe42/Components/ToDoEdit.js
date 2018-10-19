@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, AsyncStorage, Picker} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, DatePickerAndroid, DatePickerIOS, AsyncStorage, Picker, Platform} from 'react-native';
 import { TextInput, Button, Switch, Searchbar, HelperText } from 'react-native-paper';
 import { withNavigation } from 'react-navigation';
 import { Constants, Location, Permissions, MapView} from 'expo';
@@ -37,6 +37,17 @@ export default class ToDoEdit extends React.Component {
     }
   }
 
+  setIosDate(date){
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate();
+      this.setState({date: {year: year, month: month, day: day}})
+  }
+
+  getIosDate(){
+      return new Date(this.state.date.year, this.state.date.month, this.state.date.day);
+  }
+
   _updateTodoCoordinates = async (place) => {
     console.log(place)
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -61,6 +72,8 @@ export default class ToDoEdit extends React.Component {
 
   render() {
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
+    const picker = Platform.OS === 'android' ? <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button> :  <DatePickerIOS date={this.getIosDate} onDateChange={this.setIosDate} />;
+
     console.log("render", this.state)
     return (
       <View style={styles.container}>
@@ -100,8 +113,8 @@ export default class ToDoEdit extends React.Component {
                 }
             />
             </View>
-            <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button>
-
+            {/* <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button> */}
+            {picker}
         <Button mode="contained" dark={ true }  color={ saveColor } style={styles.button} title="Save"
           onPress={() => {this.props.navigation.getParam('onChangeTodo')(this.state); this.props.navigation.goBack()}}> Save </Button>
       </View>
