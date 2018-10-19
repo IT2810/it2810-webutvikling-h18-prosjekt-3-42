@@ -49,7 +49,6 @@ export default class ToDoEdit extends React.Component {
   }
 
   _updateTodoCoordinates = async (place) => {
-    console.log(place)
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
@@ -74,7 +73,6 @@ export default class ToDoEdit extends React.Component {
     const message = this.props.navigation.getParam('message', 'NO_MESSAGE');
     const picker = Platform.OS === 'android' ? <Button mode="contained" color={ dateColor } style={styles.button} title="Date" onPress={()=>this.pickDate()}> Date </Button> :  <DatePickerIOS date={this.getIosDate} onDateChange={this.setIosDate} />;
 
-    console.log("render", this.state)
     return (
       <View style={styles.container}>
         <TextInput
