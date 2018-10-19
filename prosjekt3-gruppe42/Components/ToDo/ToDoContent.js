@@ -21,26 +21,6 @@ import {
 import { haversine, toRadians } from "../../functions";
 
 export default class ToDoContent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.locale = "nb-no";
-    this.months = [
-      "januar",
-      "februar",
-      "mars",
-      "april",
-      "mai",
-      "juni",
-      "juli",
-      "august",
-      "september",
-      "oktober",
-      "november",
-      "desember"
-    ];
-    this.prioColors = ["#8FC93A", "#E4CC37", "#CC2936"];
-  }
-
   render() {
     return (
       <View>

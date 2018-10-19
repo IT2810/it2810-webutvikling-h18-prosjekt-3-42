@@ -21,8 +21,8 @@ import {
 export default class ToDoTitle extends React.Component {
   constructor(props) {
     super(props);
-    this.locale = "nb-no";
-    this.months = [
+    this.state = {
+      months: [
       "januar",
       "februar",
       "mars",
@@ -35,8 +35,9 @@ export default class ToDoTitle extends React.Component {
       "oktober",
       "november",
       "desember"
-    ];
-    this.prioColors = ["#8FC93A", "#E4CC37", "#CC2936"];
+    ],
+      prioColors: ["#8FC93A", "#E4CC37", "#CC2936"],
+    }
   }
 
   render() {
@@ -49,10 +50,10 @@ export default class ToDoTitle extends React.Component {
         <Text
           style={[
             styles.title,
-            { borderBottomColor: this.prioColors[this.props.data.priority] }
+            { borderBottomColor: this.state.prioColors[this.props.data.priority] }
           ]}>
           {this.props.data.title} - Deadline:{" "}
-          {day + ". " + this.months[month] + " (" + year + ")"} {completed}{" "}
+          {day + ". " + this.state.months[month] + " (" + year + ")"} {completed}{" "}
         </Text>
     );
   }
