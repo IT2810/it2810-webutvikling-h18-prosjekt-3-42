@@ -213,7 +213,8 @@ import { MapView } from "expo";
 
 const Marker = MapView
 
-let marker = <Marker coordinate={{latitude: 63.40, longitude:10.35}} title={"Title"} description={"Description"} />
+let marker = <Marker coordinate={{latitude: 63.40, longitude:10.35}} 
+  title={"Title"} description={"Description"} />
 
 export default class MapTest() {
  render() {
@@ -236,9 +237,12 @@ import { MapView } from "expo";
 
 const Marker = MapView
 
-let markerData = [{coordinate:{latitude: 63.4, longitude: 10.35}, key:new Date().getTime().toString(), title:"Title1", description:"Description1"},
-  {coordinate:{latitude: 63.37, longitude: 10.37}, key:((new Date().getTime() + 1).toString()), title:"Title2", description:"Description2"},
-  {coordinate:{latitude: 63.42, longitude: 10.37}, key:((new Date().getTime() + 2).toString()), title:"Title3", description:"Description3"}
+let markerData = [{coordinate:{latitude: 63.4, longitude: 10.35}, key:new Date().getTime().toString(), 
+  title:"Title1", description:"Description1"},
+  {coordinate:{latitude: 63.37, longitude: 10.37}, key:((new Date().getTime() + 1).toString()), 
+  title:"Title2", description:"Description2"},
+  {coordinate:{latitude: 63.42, longitude: 10.37}, key:((new Date().getTime() + 2).toString()), 
+  title:"Title3", description:"Description3"}
 ]
 
 
