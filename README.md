@@ -1,14 +1,9 @@
 # it2810-webutvikling-h18-prosjekt-3-42
+
 it2810-webutvikling-h18-prosjekt-3-42 created by GitHub Classroom
 
-https://github.com/expo/expo/issues/946
-Remember to use high accuracy if it fails to get current location
+[PSA](#psa)
 
-
-https://github.com/expo/expo/issues/426#issuecomment-319592189
-It still wont work on some phones, but there doesn't seem to be anything we can do about it. I turned on high precision mode location service, turned it off, restarted the phone, turned on location service again and then it worked.
-
-npm audit fix doesn't fix some vulnerabilities, but it is being worked on by smart people https://github.com/facebook/react-native/pull/21769
 
 # Documentation
 
@@ -274,7 +269,7 @@ export default class MapTest() {
 
 ### AsyncStorage
 
-[The code we used is slightly modified version of this code](https://facebook.github.io/react-native/docs/asyncstorage.html)
+[The code we used is slightly modified version of this code. ](https://facebook.github.io/react-native/docs/asyncstorage.html)
 To store and retrieve data we used AsyncStorage. For saving we used the AsyncStorage.setItem function to try to save a stringified version of out todos in our state.
 
 ```javascript
@@ -337,9 +332,20 @@ PASS  __tests__/Todo.test.js
    √ Todo description should match description in ToDoContent
    √ ToDoContent distance should match distance between currentLocation and todo-location
 ```
+
 ### Android
 The app has been tested on a Samsung Galaxy S8 and a Huawei Honor 8, and all functionality is working as expected.
 ### iOS
 Due to no members of the group having access to an iOS device, or a device that can run an iPhone emulator, we have not been able to test the app on iOS. But, most or all of the functionality should work as expected on iOS-devices as well.
 
-The only component we are using that is Android-specific is the DatePickerAndroid from react-native. Therefore we also implemented code for DatePickerIOS, but have not been able to test if this is working as expected.
+The only component we are using that is Android-specific is the DatePickerAndroid from react-native. Therefore we also implemented code for DatePickerIOS, but have not been able to test if this is working as expected. If the DatePickerIOS doesn't update the date it should default to the current date as the Todo date
+
+
+## PSA
+
+The Map wont work on some android phones due to "wrong" GPS settings. If it doesn't show up you might need to change your settings to High Accuracy mode as it doesn't seem to be able to get your location based on GPS alone.
+https://github.com/expo/expo/issues/946
+
+Also the Location getting itself doesn't work on all android phones period. There is a list here somone has compiled of phones whose location services do not work with react native. You might need to restart your phone as one of us had similar problems.
+https://github.com/expo/expo/issues/426#issuecomment-319592189
+
