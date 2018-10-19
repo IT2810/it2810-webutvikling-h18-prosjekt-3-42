@@ -2,6 +2,8 @@
 
 it2810-webutvikling-h18-prosjekt-3-42 created by GitHub Classroom
 
+❗❗🚨Important information in PSA section:🚨
+
 [PSA](#psa)
 
 
@@ -29,7 +31,7 @@ The distance-field in the todo shows how far your current location is from the t
 
 The map-button at the bottom of the screen, allows you to see your todos on a map.
 
-<img src="https://i.imgur.com/iakfp53.jpg" width="200px" />
+<img src="https://i.imgur.com/jxAjEDd.jpg" width="200px" />
 
 
 ## Technology
@@ -175,58 +177,6 @@ export default class SecondScreen extends React.Component {
 ```
 
 ### Location
-
-For getting our location we used the Location API from expo. First of all we need to ask for location permission from the Permissions API. When you have granted the permission get the current location with getCurrentLocationAsync() and update the current state.
-
-```javascript
-// Homescreen
-import { Location, Permissions } from "expo";
-
-...
-
- _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-    }
-    let location = await Location.getCurrentPositionAsync();
-    // This might go boom
-    this.setState({ currentLocation: location.coords });
-  };
-```
-To get the gps coordinates fro a location we use the geocodeAsync function from the Location API. Here we take in a place, which is a string with what is hopefully a place which we can find. We ask for persmission again and when they are granted we find the locations of the place. If we find any places by checking if the length is not equal to 0, which means 0 matches, we update the current state, else we update the helperText which displays an error message.
-
-```javascript
-// ToDoAdd
-import { Location, Permissions } from "expo";
-
-....
-
-  _updateTodoCoordinates = async (place) => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
-    let coords = await Location.geocodeAsync(place)
-
-    if (coords.length != 0) {
-      this.setState({location: coords})
-      this.setState({searched: true})
-    }
-    else {
-      this.setState({
-        helperText: "Please select at valid location",
-        searched: false,
-      })
-    }
-  }
-```
-
-#### Map
 Map tutorial
 
 The map itself comes from expo. To use it you need to import it from expo and probide the required props latitude, longitude, latitudeDelta and longitudeDelta.
