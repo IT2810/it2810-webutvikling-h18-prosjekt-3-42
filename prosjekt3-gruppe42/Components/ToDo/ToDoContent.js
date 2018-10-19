@@ -1,21 +1,12 @@
 import React from "react";
-import { Surface, Button } from "react-native-paper";
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  DatePickerAndroid,
-  AsyncStorage
 } from "react-native";
 
-import { MaterialIcons } from "@expo/vector-icons";
 import {
-  todoBackgroundColor,
-  todoEditColor,
-  todoDeleteColor,
   todoTitleColor,
-  todoDescriptionColor
 } from "../../assets/styles";
 
 import { haversine, toRadians } from "../../functions";
