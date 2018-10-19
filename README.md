@@ -111,7 +111,7 @@ export default class HomeScreen extends React.Component {
 }
 ```
 
-If we want to navigate to another part of the application we need to use call the navigator and where we want to navigate to. Note that if we navigate to a place which is not possible or not defined nothing happens. In our HomeScreen component we have added a button which navigates us to SecondScreen. This SecondScreen is also defined in the RootStack such that we can navigate to it. In SecondScreen we have a button which allows us to go back to the previous screen. In this case that will be HomeScreen, but it can be more powerful than that if used more creatively. 
+If we want to navigate to another part of the application we need to call the navigator and where we want to navigate to. Note that if we navigate to a place which is not possible or not defined nothing happens. In our HomeScreen component we have added a button which navigates us to SecondScreen. This SecondScreen is also defined in the RootStack so that we can navigate to it. In SecondScreen we have a button which allows us to go back to the previous screen. In this case that will be HomeScreen, but it can be more powerful than that if used more creatively. 
 
 ```javascript
 import React from 'react';
@@ -177,9 +177,52 @@ export default class SecondScreen extends React.Component {
 ```
 
 ### Location
-Map tutorial
 
-The map itself comes from expo. To use it you need to import it from expo and probide the required props latitude, longitude, latitudeDelta and longitudeDelta.
+For getting our location we used the Location API from expo. First of all we need to ask for location permission from the Permissions API. When you have granted the permission get the current location with getCurrentLocationAsync() and update the current state.
+ ```javascript
+// Homescreen
+import { Location, Permissions } from "expo";
+ ...
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+    }
+    let location = await Location.getCurrentPositionAsync();
+    // This might go boom
+    this.setState({ currentLocation: location.coords });
+  };
+```
+To get the gps coordinates fro a location we use the geocodeAsync function from the Location API. Here we take in a place, which is a string with what is hopefully a place which we can find. We ask for persmission again and when they are granted we find the locations of the place. If we find any places by checking if the length is not equal to 0, which means 0 matches, we update the current state, else we update the helperText which displays an error message.
+ ```javascript
+// ToDoAdd
+import { Location, Permissions } from "expo";
+ ....
+   _updateTodoCoordinates = async (place) => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+    let coords = await Location.geocodeAsync(place)
+     if (coords.length != 0) {
+      this.setState({location: coords})
+      this.setState({searched: true})
+    }
+    else {
+      this.setState({
+        helperText: "Please select at valid location",
+        searched: false,
+      })
+    }
+  }
+```
+ #### Map
+
+The map itself comes from expo. To use it you need to import it from expo and provide the required props latitude, longitude, latitudeDelta and longitudeDelta.
 
 ```javascript
 import { MapView } from "expo";
@@ -228,7 +271,7 @@ export default class MapTest() {
 }
 ```
 
-If you want multiple markers you need to save multiple
+If you want multiple markers you need to save multiple markers as shown in the code below.
 ```javascript
 import { MapView } from "expo";
 
@@ -272,7 +315,7 @@ export default class MapTest() {
 ### AsyncStorage
 
 [The code we used is slightly modified version of this code. ](https://facebook.github.io/react-native/docs/asyncstorage.html)
-To store and retrieve data we used AsyncStorage. For saving we used the AsyncStorage.setItem function to try to save a stringified version of out todos in our state.
+To store and retrieve data we used AsyncStorage. For saving we used the AsyncStorage.setItem function to try to save a stringified version of our todos in our state.
 
 ```javascript
 // HomeScreen
@@ -288,7 +331,7 @@ _storeData = async () => {
   }
 };
 ```
-For retrieving the data used the AsyncStorage.getItem function to try to get the item. If it is not null we set update state with our newly found todos, else we do nothing as no todos are found
+For retrieving the data we used the AsyncStorage.getItem function to try to get the item. If it is not null we set update state with our newly found todos, else we do nothing as no todos are found
 
 ```javascript
 // HomeScreen
@@ -311,7 +354,7 @@ _retrieveData = async () => {
 
 ## Testing
 ### Jest
-Jest was used to unit test important functionality in our code. Elements in the app that change appearance or content based on props (specifically components relating to the todos) were tested with snapshots, functions such as mathematical functions (haversine and toRadians) as well as our sorting functions were tested to check that they produced the desired output, and state. If we had more time we would have written tests for all of the components, but alas.
+Jest was used to unit test important functionality in our code. Elements in the app that change appearance or content based on props (specifically components relating to the todos) were tested with snapshots, functions such as mathematical functions (haversine and toRadians) as well as our sorting functions were tested to check that they produced the desired output, and state. We encountered some problems when testing components which contained components from reac-native-paper. This meant that we couldn't implement all of the tests we wanted. For example more testing of HomeScreen. 
 
 ```
 PASS  __tests__/functions.test.js
