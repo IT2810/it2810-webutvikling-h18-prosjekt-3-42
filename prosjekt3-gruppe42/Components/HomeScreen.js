@@ -37,7 +37,7 @@ export default class HomeScreen extends React.Component {
         latitude: 0,
         longitude: 0
       },
-      sortMethod: this.sortDate,
+      sortMethod: sortDate,
       pickerValue: 0,
       sortMethods: [
         sortDate,
