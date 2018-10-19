@@ -29,7 +29,7 @@ The distance-field in the todo shows how far your current location is from the t
 
 The map-button at the bottom of the screen, allows you to see your todos on a map.
 
-<img src="https://i.imgur.com/iakfp53.jpg" width="200px" />
+<img src="https://i.imgur.com/jxAjEDd.jpg" width="200px" />
 
 
 ## Technology
