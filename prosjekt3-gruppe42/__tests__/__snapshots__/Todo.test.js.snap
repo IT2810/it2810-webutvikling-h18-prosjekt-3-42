@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Test ToDoContent component ToDoContent snapshot testing 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Distance: 5940 km
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Drøm
+  </Text>
+</View>
+`;
+
 exports[`Test ToDoTitle component ToDoTitle snapshot test 1`] = `
 <Text
   accessible={true}
