@@ -309,28 +309,37 @@ _retrieveData = async () => {
 
 ## Testing
 ### Jest
-Jest was used to unit test important functionality in our code. Elements in the app that change appearance or content based on props (specifically components relating to the todos) were tested with snapshots, and functions such as mathematical functions (haversine and toRadians) as well as our sorting functions were tested to check that they produced the desired output.
+Jest was used to unit test important functionality in our code. Elements in the app that change appearance or content based on props (specifically components relating to the todos) were tested with snapshots, functions such as mathematical functions (haversine and toRadians) as well as our sorting functions were tested to check that they produced the desired output, and state. If we had more time we would have written tests for all of the components, but alas.
 
 ```
 PASS  __tests__/functions.test.js
- Test helper functions in functions.js
-   √ toRadians should correctly convert degrees (6ms)
-   √ Haversine should correctly find distance between two sets of coordinates (1ms)
- Test sorting functions, in functions.js
-   √ sortKey should put earliest key on top (2ms)
-   √ sortTitle should sort todos alphabetically
-   √ sortDate should put earliest date on top (2ms)
-   √ sortPriority should put highest date on top
+  Test helper functions in functions.js
+    ✓ toRadians should correctly convert degrees (7ms)
+    ✓ Haversine should correctly find distance between two sets of coordinates (2ms)
+  Test sorting functions, in functions.js
+    ✓ sortKey should put earliest key on top (2ms)
+    ✓ sortTitle should sort todos alphabetically (1ms)
+    ✓ sortDate should put earliest date on top (1ms)
+    ✓ sortPriority should put highest date on top (1ms)
 
 PASS  __tests__/Todo.test.js
- Test ToDoTitle component
-   √ ToDoTitle snapshot test (6ms)
-   √ Todo title should be in ToDoTitle
-   √ Todo date should match date in ToDoTitle (1ms)
-   √ Todo completed status should match in ToDoTitle (1ms)
- Test ToDoContent component
-   √ Todo description should match description in ToDoContent
-   √ ToDoContent distance should match distance between currentLocation and todo-location
+  Test ToDoTitle component
+    ✓ ToDoTitle snapshot test (10ms)
+    ✓ Todo title should be in ToDoTitle (1ms)
+    ✓ Todo date should match date in ToDoTitle (1ms)
+    ✓ Todo completed status should match in ToDoTitle (2ms)
+    ✓ State is the same everytime we load (2ms)
+  Test ToDoContent component
+    ✓ ToDoContent snapshot testing (1ms)
+    ✓ Todo description should match description in ToDoContent  (1ms)
+    ✓ ToDoContent distance should match distance between currentLocation and todo-location (1ms)
+
+Test Suites: 2 passed, 2 total
+Tests:       14 passed, 14 total
+Snapshots:   2 passed, 2 total
+Time:        1.862s, estimated 3s
+Ran all test suites.
+
 ```
 
 ### Android
