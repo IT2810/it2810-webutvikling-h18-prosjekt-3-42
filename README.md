@@ -243,7 +243,7 @@ let markerData = [{coordinate:{latitude: 63.4, longitude: 10.35}, key:new Date()
 
 
 export default class MapTest() {
-	render() {
+  render() {
     let markers = markerData
     .map(x => (
       <Marker
@@ -267,6 +267,46 @@ export default class MapTest() {
       }
 }
 ```
+
+### AsyncStorage
+
+[The code we used is slightly modified version of this code](https://facebook.github.io/react-native/docs/asyncstorage.html)
+To store and retrieve data we used AsyncStorage. For saving we used the AsyncStorage.setItem function to try to save a stringified version of out todos in our state.
+
+```javascript
+// HomeScreen
+import { AsyncStorage } from "react-native";
+
+...
+
+_storeData = async () => {
+  try {
+    await AsyncStorage.setItem("todos", JSON.stringify(this.state.todos));
+  } catch (error) {
+    console.warn("Store data error" + error);
+  }
+};
+```
+For retrieving the data used the AsyncStorage.getItem function to try to get the item. If it is not null we set update state with our newly found todos, else we do nothing as no todos are found
+
+```javascript
+// HomeScreen
+import { AsyncStorage } from "react-native";
+
+...
+
+_retrieveData = async () => {
+  try {
+    const value = await AsyncStorage.getItem("todos");
+      if (value !== null) {
+        this.setState({ todos: JSON.parse(value) });
+    }
+  } catch (error) {
+    console.warn("Retrieve data error" + error);
+  }
+};
+```
+
 
 ## Testing
 ### Jest
